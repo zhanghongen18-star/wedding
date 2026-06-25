@@ -290,52 +290,15 @@ nav ul li a:hover::after{width:100%}
   position:absolute;bottom:-50px;right:-10px;
   font-family:Georgia,serif;
 }
-.gallery-section{
-  padding:100px 30px;
-  background:#0d0b0f;
-}
-.gallery-grid{
-  max-width:1400px;margin:0 auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  grid-auto-rows:200px;
-  gap:16px;
-}
-.gallery-item{
-  position:relative;
-  overflow:hidden;
-  border-radius:4px;
-  cursor:pointer;
-  aspect-ratio:auto;
-  opacity:0;
-  transform:translateY(40px);
-  transition:opacity 0.6s ease,transform 0.6s ease,box-shadow 0.4s;
-}
-.gallery-item.visible{
-  opacity:1;
-  transform:translateY(0);
-}
-.gallery-item:hover{
-  box-shadow:0 20px 60px rgba(212,167,106,0.15);
-}
-.gallery-item img{
-  width:100%;height:100%;
-  object-fit:cover;
-  transition:transform 1.2s ease,filter 0.6s ease;
-  display:block;
-}
-.gallery-item:hover img{
-  transform:scale(1.08);
-  filter:brightness(1.05) saturate(1.1);
-}
-.gallery-item .overlay-hover{
-  position:absolute;inset:0;
-  background:rgba(212,167,106,0.08);
-  opacity:0;transition:opacity 0.4s;
-}
+.gallery-section{padding:100px 30px;background:#0d0b0f}
+.gallery-grid{column-count:3;column-gap:16px;max-width:1300px;margin:0 auto}
+.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
+.gallery-item.visible{opacity:1;transform:translateY(0)}
+.gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
+.gallery-item img{width:100%;height:auto;display:block;transition:transform 0.8s ease}
+.gallery-item:hover img{transform:scale(1.03)}
+.gallery-item .overlay-hover{position:absolute;inset:0;background:rgba(212,167,106,0.06);opacity:0;transition:opacity 0.4s;pointer-events:none}
 .gallery-item:hover .overlay-hover{opacity:1}
-.gallery-item.tall{grid-row:span 2}
-.gallery-item.wide{grid-column:span 2}
 .game-section{
   padding:100px 30px 120px;
   background:linear-gradient(180deg,#0d0b0f,#1a1518);
@@ -688,9 +651,6 @@ nav ul li a:hover::after{width:100%}
   <img id="lbImg" src="" alt="">
 </div>
 <script>
-// ========== 图片布局配置 ==========
-// "tall"→竖图跨2行  "wide"→横图跨2列  "normal"→标准
-// 想调整直接改下面的值就行，一目了然
 const IMAGE_CONFIG = {};
 // ====================================
 const IMAGES = [
@@ -794,8 +754,7 @@ function buildGallery(){
     const item=document.createElement('div');
     item.className='gallery-item';
     
-    if(cfg==="tall") item.classList.add('tall');
-    if(cfg==="wide") item.classList.add('wide');
+    
     item.style.transitionDelay=(i*0.08)+'s';
     item.innerHTML='<img src="'+THUMB_PATH+src+'" alt="婚纱照 '+(i+1)+'" loading="lazy"><div class="overlay-hover"></div>';
     item.addEventListener('click',()=>openLightbox(i));
@@ -945,6 +904,9 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
+
+
+
 
 
 
