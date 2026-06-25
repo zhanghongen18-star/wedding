@@ -292,7 +292,7 @@ nav ul li a:hover::after{width:100%}
 }
 .gallery-section{padding:100px 30px;background:#0d0b0f}
 .gallery-grid{column-count:3;column-gap:16px;max-width:1300px;margin:0 auto}
-.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
+.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;opacity:0;transform:translateY(20px);will-change:transform,opacity;transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
 .gallery-item.visible{opacity:1;transform:translateY(0)}
 .gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
 .gallery-item img{width:100%;height:auto;display:block;transition:transform 0.8s ease}
@@ -316,7 +316,7 @@ nav ul li a:hover::after{width:100%}
   cursor:pointer;
   position:relative;
   transform-style:preserve-3d;
-  transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);will-change:transform;
   border-radius:8px;
 }
 .game-card.flipped{transform:rotateY(180deg)}
@@ -711,7 +711,7 @@ const THUMB_PATH = 'thumbs/';
 const WEB_PATH = 'web/';
 document.getElementById('heroBg').style.backgroundImage = 'url("' + WEB_PATH+IMAGES[0] + '")';
 window.addEventListener('load',()=>{
-  setTimeout(()=>{ document.getElementById('pageLoader').classList.add('hidden'); },600);
+  setTimeout(function(){ document.getElementById('pageLoader').classList.add('hidden'); },600);
 });
 document.getElementById('entryOverlay').addEventListener('click',()=>{
   document.getElementById('entryOverlay').classList.add('hidden');
@@ -776,6 +776,10 @@ document.getElementById('lbClose').addEventListener('click',closeLightbox);
 document.getElementById('lbPrev').addEventListener('click',()=>lbNav(-1));
 document.getElementById('lbNext').addEventListener('click',()=>lbNav(1));
 lb.addEventListener('click',(e)=>{if(e.target===lb)closeLightbox()});
+lb.addEventListener('touchend',function(e){if(e.target===lb)closeLightbox()});
+document.getElementById('lbClose').addEventListener('touchend',function(e){e.preventDefault();closeLightbox()});
+document.getElementById('lbPrev').addEventListener('touchend',function(e){e.preventDefault();lbNav(-1)});
+document.getElementById('lbNext').addEventListener('touchend',function(e){e.preventDefault();lbNav(1)});
 document.addEventListener('keydown',(e)=>{
   if(!lb.classList.contains('active'))return;
   if(e.key==='Escape')closeLightbox();
@@ -828,7 +832,7 @@ function flipCard(idx){
         for(let i=0;i<12;i++) setTimeout(()=>createCelebration(),i*200);
       }
     }else{
-      setTimeout(()=>{
+      setTimeout(function(){
         els[a].classList.remove('flipped');
         els[b].classList.remove('flipped');
         gameFlipped=[]; gameLocked=false;
@@ -874,7 +878,7 @@ window.addEventListener('scroll',()=>{
 console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 <audio id="bgm" loop preload="auto">
-  <source src="web/bgm.flac" type="audio/mpeg">
+  <source src="web/music.mp3" type="audio/mpeg">
 </audio>
 <button class="music-btn" id="musicToggle" style="display:none">
   <span class="note-on music-spin">♫</span>
@@ -891,7 +895,7 @@ console.log('💕 祝福新人：永结同心，百年好合！');
   }
   btn.addEventListener("click",toggle);
   window.addEventListener("load",()=>{
-    setTimeout(()=>{
+    setTimeout(function(){
       audio.play().then(()=>btn.classList.remove("paused")).catch(()=>btn.classList.add("paused"));
     },1500);
   });
@@ -904,6 +908,8 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
+
+
 
 
 
