@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -578,6 +578,24 @@ nav ul li a:hover::after{width:100%}
   color:var(--gold);font-size:13px;
   letter-spacing:4px;
 }
+/* Music toggle */
+.music-btn{
+  position:fixed;top:20px;right:20px;z-index:10000;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(13,11,15,0.7);backdrop-filter:blur(12px);
+  border:1px solid rgba(212,167,106,0.15);
+  color:var(--gold);font-size:18px;
+  cursor:pointer;transition:all .4s ease;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+}
+.music-btn:hover{background:rgba(212,167,106,0.15);transform:scale(1.08)}
+.music-btn.paused{opacity:0.5}
+.music-btn.paused .note-on{display:none}
+.music-btn.paused .note-off{display:inline}
+.music-btn .note-off{display:none}
+.music-spin{animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -865,5 +883,35 @@ window.addEventListener('scroll',()=>{
 });
 console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
+<audio id="bgm" loop preload="auto">
+  <source src="web/music.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" id="musicToggle" style="display:none">
+  <span class="note-on music-spin">♫</span>
+  <span class="note-off">♪</span>
+</button>
+<script>
+(function(){
+  const audio=document.getElementById("bgm");
+  const btn=document.getElementById("musicToggle");
+  btn.style.display="flex";
+  function toggle(){
+    if(audio.paused){audio.play();btn.classList.remove("paused")}
+    else{audio.pause();btn.classList.add("paused")}
+  }
+  btn.addEventListener("click",toggle);
+  window.addEventListener("load",()=>{
+    setTimeout(()=>{
+      audio.play().then(()=>btn.classList.remove("paused")).catch(()=>btn.classList.add("paused"));
+    },1500);
+  });
+  document.addEventListener("click",()=>{
+    if(audio.paused){
+      audio.play().then(()=>btn.classList.remove("paused")).catch(()=>{});
+    }
+  },{once:true});
+})();
+</script>
 </body>
 </html>
+
