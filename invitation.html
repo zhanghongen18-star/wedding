@@ -44,7 +44,7 @@ body{
 }
 @keyframes cardIn{0%{opacity:0;transform:translateY(30px) scale(0.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
 
-/* LEFT: Photos */
+/* LEFT: Photos - crop top */
 .card-photos{
   flex:0 0 46%;
   display:flex;flex-direction:column;
@@ -53,8 +53,12 @@ body{
 .card-photos .photo-item{
   flex:1;overflow:hidden;position:relative;
 }
-.card-photos .photo-item img{
-  width:100%;height:100%;object-fit:cover;display:block;
+.card-photos .photo-item:nth-child(1) img{
+  width:100%;height:120%;object-fit:cover;object-position:center 12%;display:block;
+  transition:transform 1.2s ease;
+}
+.card-photos .photo-item:nth-child(2) img{
+  width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;
   transition:transform 1.2s ease;
 }
 .card-photos:hover .photo-item img{transform:scale(1.05)}
@@ -92,7 +96,7 @@ body{
 .divider .line:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
 .divider .diamond{color:var(--gold);font-size:6px}
 
-/* Wedding info - cleaner compact */
+/* Wedding info */
 .wedding-info{
   width:100%;max-width:340px;padding:16px 20px;
   border:1px solid rgba(212,167,106,0.12);border-radius:6px;
@@ -107,19 +111,27 @@ body{
 .wedding-info .info-label{font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.6;width:50px;flex-shrink:0}
 .wedding-info .info-value{font-size:clamp(13px,1.1vw,16px);color:var(--cream);opacity:0.9;letter-spacing:1px}
 
-/* Actions */
-.card-actions{
-  margin-top:14px;display:flex;gap:10px;align-items:center;
+/* QR code */
+.qr-mini{
+  display:flex;align-items:center;gap:10px;margin-top:14px;
+  padding:10px 16px;border:1px solid rgba(212,167,106,0.08);border-radius:6px;
+  background:rgba(212,167,106,0.02);
   animation:fadeUp 0.8s ease 1.4s both;
 }
-.action-btn{
-  padding:8px 20px;
-  background:transparent;border:1px solid rgba(212,167,106,0.15);
-  color:var(--cream);font-family:"Noto Serif SC",serif;
-  font-size:12px;letter-spacing:2px;cursor:pointer;
-  transition:all .3s ease;border-radius:4px;text-decoration:none;
+.qr-mini img{width:44px;height:44px;border-radius:4px;display:block}
+.qr-mini .qr-text{font-size:11px;color:var(--cream);opacity:0.5;letter-spacing:1px;line-height:1.5}
+.qr-mini .qr-text span{display:block;color:var(--gold);opacity:0.6;font-size:11px;margin-bottom:1px;letter-spacing:2px}
+
+/* Footer */
+.card-footer{
+  margin-top:14px;padding-top:10px;border-top:1px solid rgba(212,167,106,0.06);
+  text-align:center;width:100%;
+  animation:fadeUp 0.8s ease 1.8s both;
 }
-.action-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.card-footer p{
+  font-family:"Playfair Display",serif;font-size:11px;font-style:italic;
+  color:var(--gold);opacity:0.4;letter-spacing:3px;
+}
 
 @keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 
@@ -130,7 +142,7 @@ body{
   .card-content{padding:28px 20px 24px}
   .card-content::before{display:none}
   .wedding-info{max-width:100%}
-  .card-actions{flex-direction:column}
+  .qr-mini{flex-direction:column;text-align:center}
 }
 @media(max-width:480px){
   .card-photos .photo-item{min-height:140px}
@@ -175,8 +187,16 @@ body{
       </div>
     </div>
 
-    <div class="card-actions">
-      <span style="font-size:11px;color:var(--gold);opacity:0.4;letter-spacing:1px">— 感 谢 祝 福 —</span>
+    <div class="qr-mini">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zhanghongen18-star.github.io/wedding/" alt="二维码">
+      <div class="qr-text">
+        <span>✦ 扫码查看婚纱照 ✦</span>
+        更多照片尽在纪念网站
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <p>— ♥ 感谢您的祝福 ♥ —</p>
     </div>
   </div>
 </div>
