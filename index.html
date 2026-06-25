@@ -291,11 +291,11 @@ nav ul li a:hover::after{width:100%}
   font-family:Georgia,serif;
 }
 .gallery-section{padding:100px 30px;background:#0d0b0f}
-.gallery-grid{column-count:3;column-gap:16px;max-width:1300px;margin:0 auto}
-.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;opacity:0;transform:translateY(20px);will-change:transform,opacity;transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
+.gallery-grid{display:flex;flex-wrap:wrap;gap:12px;max-width:1300px;margin:0 auto;justify-content:center}
+.gallery-item{flex:1 1 240px;max-width:360px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
 .gallery-item.visible{opacity:1;transform:translateY(0)}
 .gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
-.gallery-item img{width:100%;height:auto;display:block;transition:transform 0.8s ease}
+.gallery-item img{width:100%;height:250px;object-fit:contain;display:block;background:#1a1518;transition:transform 0.8s ease}
 .gallery-item:hover img{transform:scale(1.03)}
 .gallery-item .overlay-hover{position:absolute;inset:0;background:rgba(212,167,106,0.06);opacity:0;transition:opacity 0.4s;pointer-events:none}
 .gallery-item:hover .overlay-hover{opacity:1}
@@ -496,8 +496,8 @@ nav ul li a:hover::after{width:100%}
   .section-title{margin-bottom:30px}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
-@media(max-width:480px){
-  .gallery-grid{column-count:2;column-gap:8px}
+@media(max-width:480px){.gallery-item img{height:200px}.gallery-item{flex:1 1 180px}
+  .gallery-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
   
   .game-container{max-width:320px;gap:6px}
   .game-card-front,.game-card-back{font-size:18px}
@@ -908,6 +908,8 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
+
+
 
 
 
