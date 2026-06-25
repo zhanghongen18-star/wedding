@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>执子之手 · 婚纱纪念邀请</title>
+<title>王栓 & 张倩 · 婚礼邀请</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Noto+Serif+SC:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
   font-family:"Noto Serif SC","Playfair Display",Georgia,serif;
-  background:#0d0b0f;color:#f5ede8;overflow-x:hidden;line-height:1.8;
+  background:#0d0b0f;color:#f5ede8;overflow-x:hidden;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
 }
 :root{--gold:#d4a76a;--gold-light:#e8c88a;--rose:#e8b4b8;--blush:#f2d7d5;--cream:#faf0e6;--dark:#0d0b0f;--warm:#1a1518}
 ::-webkit-scrollbar{width:6px}
@@ -18,454 +18,243 @@ body{
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
 /* Loader */
-.loader{
-  position:fixed;inset:0;z-index:10001;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:#0d0b0f;transition:opacity .8s ease,visibility .8s ease;
-}
+.loader{position:fixed;inset:0;z-index:10001;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0d0b0f;transition:opacity .8s ease,visibility .8s ease}
 .loader.hidden{opacity:0;visibility:hidden}
 .loader-ring{width:50px;height:50px;border:1px solid rgba(212,167,106,0.15);border-top-color:var(--gold);border-radius:50%;animation:lspin 1.2s linear infinite}
 @keyframes lspin{to{transform:rotate(360deg)}}
 .loader p{margin-top:16px;color:var(--gold);font-size:12px;letter-spacing:5px}
 
-/* Petals */
-.petals-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
-.petal{position:absolute;top:-60px;width:18px;height:24px;background:radial-gradient(ellipse at 30% 30%,var(--blush),var(--rose));border-radius:50% 0 50% 0;opacity:0.5;animation:fall linear infinite;filter:blur(0.5px)}
-@keyframes fall{0%{transform:translateY(-60px) rotate(0deg) translateX(0);opacity:0.5}100%{transform:translateY(110vh) rotate(720deg) translateX(120px);opacity:0}}
+/* Background */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg-glow::before{content:"";position:absolute;width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(212,167,106,0.04) 0%,transparent 70%);border-radius:50%}
 
-/* Sparkle overlay */
-.sparkle-overlay{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}
-.sparkle-star{position:absolute;color:var(--gold-light);animation:shimmer linear infinite;font-size:8px;opacity:0}
-@keyframes shimmer{0%{opacity:0;transform:scale(0) rotate(0deg)}30%{opacity:0.8}100%{opacity:0;transform:scale(1.5) rotate(180deg) translateY(-20px)}}
+/* Sparkles */
+.sparkle-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.sparkle-star{position:absolute;color:var(--gold-light);animation:shimmer linear infinite;font-size:7px;opacity:0}
+@keyframes shimmer{0%{opacity:0;transform:scale(0) rotate(0deg)}30%{opacity:0.6}100%{opacity:0;transform:scale(1.5) rotate(180deg) translateY(-20px)}}
 
-/* ====== COVER SECTION ====== */
-.cover{
-  position:relative;width:100%;min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;padding:30px 20px;
-}
-.cover-bg{
-  position:absolute;inset:0;z-index:0;
-  display:flex;flex-direction:row;
-}
-.cover-bg .bg-half{
-  flex:1;position:relative;overflow:hidden;
-}
-.cover-bg .bg-half img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  filter:brightness(0.55) saturate(1.1);
-  transform:scale(1.1);transition:transform 6s ease;
-}
-.cover:hover .bg-half img{transform:scale(1)}
-.cover-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(13,11,15,0.3) 0%,rgba(13,11,15,0.1) 40%,rgba(13,11,15,0.6) 70%,rgba(13,11,15,0.95) 100%);
-}
-.cover-content{position:relative;z-index:2;text-align:center;max-width:700px}
-.cover-content .ornament{font-size:16px;letter-spacing:10px;color:var(--gold);opacity:0.5;margin-bottom:16px;animation:fadeUp 1s ease 0.3s both}
-.cover-content h1{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(38px,7vw,80px);font-weight:300;color:var(--cream);
-  letter-spacing:6px;animation:fadeUp 1s ease 0.5s both;
-}
-.cover-content .names-sub{
-  font-size:clamp(18px,2.5vw,36px);color:var(--gold);font-weight:300;
-  font-family:"Playfair Display",serif;font-style:italic;
-  margin-top:8px;animation:fadeUp 1s ease 0.7s both;
-}
-.cover-content .date-text{
-  font-size:clamp(12px,1.2vw,16px);letter-spacing:8px;color:var(--rose);
-  margin-top:24px;opacity:0.7;animation:fadeUp 1s ease 0.9s both;
-}
-.cover-scroll{
-  position:absolute;bottom:8%;left:50%;transform:translateX(-50%);z-index:2;
-  text-align:center;color:var(--cream);animation:fadeUp 1s ease 1.4s both;
-}
-.cover-scroll span{font-size:11px;letter-spacing:4px;color:var(--gold);opacity:0.6}
-.cover-scroll .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);margin:8px auto;animation:scrollMove 2s ease-in-out infinite}
-@keyframes scrollMove{0%,100%{transform:scaleY(0.5);opacity:0.4}50%{transform:scaleY(1);opacity:1}}
-
-/* ====== COMMON SECTIONS ====== */
-.section{padding:80px 24px;position:relative}
-.section-inner{max-width:800px;margin:0 auto}
-.section-title{text-align:center;margin-bottom:40px}
-.section-title .ornament{color:var(--gold);font-size:13px;letter-spacing:6px;margin-bottom:10px;opacity:0.7}
-.section-title h2{font-family:"Playfair Display",serif;font-size:clamp(26px,3.5vw,42px);font-weight:400;color:var(--cream);letter-spacing:2px}
-.section-title p{color:var(--rose);font-size:clamp(13px,1.1vw,16px);margin-top:8px;opacity:0.7;font-weight:300}
-
-/* ====== STORY SECTION ====== */
-.story{background:linear-gradient(180deg,#0d0b0f 0%,#1a1518 50%,#0d0b0f 100%)}
-.story-text{font-size:clamp(14px,1.3vw,18px);line-height:2;color:var(--cream);opacity:0.85;font-weight:300;text-align:center}
-.story-text em{color:var(--gold);font-style:normal}
-.quote-block{
-  margin:40px 0;font-family:"Playfair Display",serif;
-  font-size:clamp(18px,2vw,30px);font-style:italic;color:var(--gold-light);
-  line-height:1.6;text-align:center;padding:20px 30px;position:relative;
-}
-.quote-block::before{content:"\201C";font-size:70px;color:var(--gold);opacity:0.15;position:absolute;top:-10px;left:0;font-family:Georgia,serif}
-.quote-block::after{content:"\201D";font-size:70px;color:var(--gold);opacity:0.15;position:absolute;bottom:-30px;right:0;font-family:Georgia,serif}
-
-/* ====== PHOTO GALLERY ====== */
-.gallery{background:#0d0b0f}
-.gallery-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.gallery-grid .full{grid-column:1/-1}
-.gallery-item{position:relative;overflow:hidden;border-radius:4px;aspect-ratio:3/2;cursor:pointer;opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
-.gallery-item.visible{opacity:1;transform:translateY(0)}
-.gallery-item.tall{aspect-ratio:3/4}
-.gallery-item.wide{aspect-ratio:16/9}
-.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s ease}
-.gallery-item:hover img{transform:scale(1.06)}
-
-/* ====== INVITATION CARD INFO ====== */
-.invite-info{background:linear-gradient(180deg,#1a1518 0%,#0d0b0f 100%);text-align:center}
-.info-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:600px;margin:0 auto}
-.info-card{
-  padding:28px 16px;border:1px solid rgba(212,167,106,0.1);border-radius:6px;
-  background:rgba(26,21,24,0.6);opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;
-}
-.info-card.visible{opacity:1;transform:translateY(0)}
-.info-card .icon{font-size:24px;margin-bottom:8px;color:var(--gold)}
-.info-card .label{font-size:11px;letter-spacing:3px;color:var(--gold);opacity:0.6;margin-bottom:4px}
-.info-card .value{font-size:clamp(13px,1.2vw,16px);color:var(--cream);opacity:0.85}
-
-/* ====== QR CODE SECTION ====== */
-.qr-section{
-  text-align:center;padding:40px 24px;background:#0d0b0f;
-  border-top:1px solid rgba(212,167,106,0.06);
-}
-.qr-section .qr-code{display:inline-block;margin:16px auto}
-.qr-section .qr-code img{width:140px;height:140px;border-radius:8px;display:block;box-shadow:0 8px 30px rgba(0,0,0,.3);transition:transform .4s ease}
-.qr-section .qr-code img:hover{transform:scale(1.05)}
-.qr-section .qr-label{font-size:13px;letter-spacing:3px;color:var(--gold);opacity:0.6}
-.qr-section .qr-hint{display:block;margin-top:8px;font-size:12px;color:var(--cream);opacity:0.4;letter-spacing:1px}
-
-/* ====== GUESTBOOK ====== */
-.guestbook{background:#1a1518;text-align:center}
-.guestbook-msg{max-width:500px;margin:0 auto;padding:20px;position:relative}
-.guestbook-msg textarea{
-  width:100%;padding:14px;border:1px solid rgba(212,167,106,0.15);
-  background:rgba(13,11,15,0.6);color:var(--cream);
-  font-family:"Noto Serif SC",serif;font-size:14px;border-radius:4px;
-  resize:vertical;min-height:80px;outline:none;transition:border-color .3s;
-}
-.guestbook-msg textarea:focus{border-color:var(--gold)}
-.guestbook-msg .send-btn{
-  margin-top:12px;padding:10px 32px;
-  background:transparent;border:1px solid var(--gold);color:var(--gold);
-  font-family:"Noto Serif SC",serif;font-size:13px;letter-spacing:2px;
-  cursor:pointer;transition:all .3s ease;border-radius:4px;
-}
-.guestbook-msg .send-btn:hover{background:var(--gold);color:var(--dark)}
-.messages-list{max-width:500px;margin:20px auto 0;text-align:left}
-.msg-item{
-  padding:10px 14px;margin-bottom:8px;
-  border-left:2px solid var(--gold);opacity:0;transform:translateX(-10px);
-  transition:opacity .4s ease,transform .4s ease;
-}
-.msg-item.visible{opacity:1;transform:translateX(0)}
-.msg-item .name{font-size:12px;color:var(--gold);letter-spacing:1px}
-.msg-item .content{font-size:13px;color:var(--cream);opacity:0.7;margin-top:2px}
-
-/* ====== ENDING ====== */
-.ending{background:#0d0b0f;text-align:center;padding:80px 24px 100px;position:relative}
-.ending::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.ending h2{font-family:"Playfair Display",serif;font-size:clamp(22px,3vw,36px);font-weight:400;color:var(--cream);margin-bottom:16px}
-.ending p{font-size:clamp(13px,1.1vw,16px);color:var(--cream);opacity:0.7;line-height:2;margin-bottom:24px}
-.ending .signature{font-family:"Playfair Display",serif;font-size:20px;font-style:italic;color:var(--gold)}
-.ending .heart-line{font-size:13px;letter-spacing:4px;color:var(--rose);opacity:0.5;margin-top:30px}
-
-/* ====== FLOATING NAV ====== */
-.floating-nav{
-  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:100;
-  display:flex;gap:8px;align-items:center;
-  background:rgba(13,11,15,0.7);backdrop-filter:blur(16px) saturate(1.2);
-  padding:8px 20px;border-radius:30px;
+/* ====== INVITATION CARD ====== */
+.card{
+  position:relative;z-index:1;
+  max-width:960px;width:calc(100% - 30px);
+  background:linear-gradient(160deg,#1a1518 0%,#120f12 50%,#1a1518 100%);
   border:1px solid rgba(212,167,106,0.12);
+  border-radius:8px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.5);
+  display:flex;flex-direction:row;
+  min-height:520px;
+  animation:cardIn 1s ease 0.3s both;
 }
-.floating-nav a{
-  padding:6px 14px;color:var(--cream);text-decoration:none;
-  font-size:12px;letter-spacing:2px;transition:color .3s;border-radius:20px;
+@keyframes cardIn{0%{opacity:0;transform:translateY(30px) scale(0.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ====== LEFT: PHOTOS ====== */
+.card-photos{
+  flex:0 0 46%;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
 }
-.floating-nav a:hover,.floating-nav a.active{color:var(--gold);background:rgba(212,167,106,0.08)}
-.floating-nav .sep{color:rgba(212,167,106,0.2);font-size:10px}
+.card-photos .photo-item{
+  flex:1;overflow:hidden;position:relative;
+}
+.card-photos .photo-item img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s ease;
+}
+.card-photos:hover .photo-item img{transform:scale(1.05)}
+.card-photos .overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(0deg,rgba(13,11,15,0.2) 0%,transparent 30%,transparent 70%,rgba(13,11,15,0.2) 100%);
+  pointer-events:none;
+}
 
-/* ====== LIGHTBOX ====== */
-.lightbox{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.92);opacity:0;visibility:hidden;transition:all .4s ease;cursor:zoom-out}
-.lightbox.active{opacity:1;visibility:visible}
-.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:scale(0.93);transition:transform .4s cubic-bezier(.4,0,.2,1)}
-.lightbox.active img{transform:scale(1)}
-.lightbox .close{position:absolute;top:24px;right:30px;background:none;border:none;color:var(--cream);font-size:28px;cursor:pointer;opacity:0.5;transition:opacity .3s}
-.lightbox .close:hover{opacity:1}
+/* ====== RIGHT: CONTENT ====== */
+.card-content{
+  flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:50px 40px;position:relative;
+}
+.card-content::before{
+  content:"";position:absolute;left:0;top:10%;bottom:10%;width:1px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);
+}
 
-/* ====== ANIMATIONS ====== */
-@keyframes fadeUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
+/* Ornament top */
+.top-ornament{
+  font-size:13px;letter-spacing:8px;color:var(--gold);opacity:0.4;margin-bottom:12px;
+  animation:fadeUp 0.8s ease 0.6s both;
+}
+
+/* Title */
+.invite-title{
+  text-align:center;margin-bottom:24px;
+  animation:fadeUp 0.8s ease 0.8s both;
+}
+.invite-title h1{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(22px,2.8vw,36px);font-weight:400;color:var(--cream);
+  letter-spacing:8px;margin-bottom:4px;
+}
+.invite-title .sub{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(13px,1.5vw,18px);font-style:italic;color:var(--gold);font-weight:300;
+}
+
+/* Divider */
+.divider{
+  display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px;
+  animation:fadeUp 0.8s ease 1s both;
+}
+.divider .line{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.divider .line:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+.divider .diamond{color:var(--gold);font-size:7px}
+
+/* Invite text */
+.invite-text{
+  text-align:center;margin-bottom:24px;
+  animation:fadeUp 0.8s ease 1.2s both;
+}
+.invite-text p{
+  font-size:clamp(13px,1.2vw,15px);color:var(--cream);opacity:0.7;line-height:1.9;
+  font-weight:300;
+}
+
+/* Wedding info */
+.wedding-info{
+  width:100%;max-width:360px;padding:20px 24px;
+  border:1px solid rgba(212,167,106,0.12);border-radius:6px;
+  background:rgba(212,167,106,0.03);margin-bottom:20px;
+  animation:fadeUp 0.8s ease 1.4s both;
+}
+.wedding-info .info-row{
+  display:flex;align-items:center;gap:12px;padding:6px 0;
+}
+.wedding-info .info-row:not(:last-child){border-bottom:1px solid rgba(212,167,106,0.06);margin-bottom:6px;padding-bottom:10px}
+.wedding-info .info-icon{color:var(--gold);font-size:16px;width:24px;text-align:center;flex-shrink:0}
+.wedding-info .info-label{font-size:12px;letter-spacing:2px;color:var(--gold);opacity:0.6;width:56px;flex-shrink:0}
+.wedding-info .info-value{font-size:clamp(13px,1.1vw,16px);color:var(--cream);opacity:0.9;letter-spacing:1px}
+
+/* QR */
+.qr-mini{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 18px;border:1px solid rgba(212,167,106,0.08);border-radius:6px;
+  background:rgba(212,167,106,0.02);
+  animation:fadeUp 0.8s ease 1.6s both;
+}
+.qr-mini img{width:50px;height:50px;border-radius:4px;display:block}
+.qr-mini .qr-text{font-size:11px;color:var(--cream);opacity:0.5;letter-spacing:1px;line-height:1.5}
+.qr-mini .qr-text span{display:block;color:var(--gold);opacity:0.6;font-size:12px;margin-bottom:2px;letter-spacing:2px}
+
+/* Footer */
+.card-footer{
+  margin-top:20px;padding-top:14px;border-top:1px solid rgba(212,167,106,0.06);
+  text-align:center;width:100%;
+  animation:fadeUp 0.8s ease 1.8s both;
+}
+.card-footer p{
+  font-family:"Playfair Display",serif;font-size:12px;font-style:italic;
+  color:var(--gold);opacity:0.5;letter-spacing:3px;
+}
+
+/* Animations */
+@keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 
 /* ====== RESPONSIVE ====== */
 @media(max-width:768px){
-  .cover-bg{flex-direction:column}
-  .gallery-grid{grid-template-columns:1fr 1fr;gap:8px}
-  .info-cards{grid-template-columns:1fr;max-width:400px}
-  .floating-nav{display:none}
-  .section{padding:60px 16px}
-  .cover-content h1{font-size:clamp(30px,9vw,48px)}
-  .cover-content .names-sub{font-size:clamp(16px,4vw,22px)}
+  .card{flex-direction:column;min-height:auto;max-width:440px}
+  .card-photos{flex:none}
+  .card-photos .photo-item{min-height:200px}
+  .card-content{padding:32px 24px 28px}
+  .card-content::before{display:none}
+  .wedding-info{max-width:100%}
+  .invite-title h1{font-size:clamp(20px,5vw,28px)}
 }
 @media(max-width:480px){
-  .gallery-grid{gap:6px}
-  .gallery-item{aspect-ratio:4/3}
-  .gallery-item.tall{aspect-ratio:3/4}
-  .cover{padding:20px 16px}
-  .cover-content h1{font-size:clamp(26px,10vw,38px)}
-  .qr-section .qr-code img{width:120px;height:120px}
+  .card-photos .photo-item{min-height:160px}
+  .card-content{padding:24px 18px 24px}
+  .qr-mini{flex-direction:column;text-align:center}
 }
 </style>
 </head>
 <body>
 <div class="loader" id="loader"><div class="loader-ring"></div><p>加载中...</p></div>
-<div class="petals-container" id="petals"></div>
+<div class="bg-glow"></div>
 <div class="sparkle-overlay" id="sparkles"></div>
 
-<!-- ====== COVER ====== -->
-<section class="cover" id="cover">
-  <div class="cover-bg">
-    <div class="bg-half"><img src="web/invite_top.jpg" alt=""></div>
-    <div class="bg-half"><img src="web/invite_bottom.jpg" alt=""></div>
+<div class="card">
+  <!-- LEFT: Photos -->
+  <div class="card-photos">
+    <div class="photo-item"><img src="web/invite_top.jpg" alt="婚纱照"></div>
+    <div class="photo-item"><img src="web/invite_bottom.jpg" alt="婚纱照"></div>
+    <div class="overlay"></div>
   </div>
-  <div class="cover-overlay"></div>
-  <div class="cover-content">
-    <div class="ornament">? ? ?</div>
-    <h1>执子之手</h1>
-    <div class="names-sub">与子偕老</div>
-    <div class="date-text">— 永 恒 纪 念 —</div>
-  </div>
-  <div class="cover-scroll">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+  <!-- RIGHT: Content -->
+  <div class="card-content">
+    <div class="top-ornament">✦ ✦ ✦</div>
 
-<!-- ====== STORY ====== -->
-<section class="section story" id="story">
-  <div class="section-inner">
-    <div class="section-title reveal">
-      <div class="ornament">? ? ?</div>
-      <h2>我们的故事</h2>
-      <p>Our Story</p>
+    <div class="invite-title">
+      <h1>结婚邀请</h1>
+      <div class="sub">Wedding Invitation</div>
     </div>
-    <div class="story-text reveal">
-      <p>从相遇到相知，从心动到永恒。<br>每一个瞬间都像是上天赐予的礼物，<br>在时光的长河中，<em>你是我最美的风景</em>。</p>
-    </div>
-    <div class="quote-block reveal">愿得一人心，白首不相离。</div>
-    <div class="story-text reveal">
-      <p>那些一起走过的日子，<br>有欢笑，有眼泪，有说不完的话，<br>和藏在心底的温柔。<br><br>今天，我们穿上最美的衣裳，<br>让镜头定格<em>属于我们的永恒</em>。</p>
-    </div>
-  </div>
-</section>
 
-<!-- ====== PHOTO GALLERY ====== -->
-<section class="section gallery" id="gallery">
-  <div class="section-title reveal">
-    <div class="ornament">? ? ?</div>
-    <h2>永恒瞬间</h2>
-    <p>Moments of Eternity</p>
-  </div>
-  <div class="gallery-grid" id="galleryGrid"></div>
-</section>
-
-<!-- ====== INVITE INFO ====== -->
-<section class="section invite-info" id="info">
-  <div class="section-title reveal">
-    <div class="ornament">? ? ?</div>
-    <h2>邀请您</h2>
-    <p>与我们一同见证幸福时刻</p>
-  </div>
-  <div class="info-cards">
-    <div class="info-card reveal">
-      <div class="icon">?</div>
-      <div class="label">新 郎</div>
-      <div class="value">新郎</div>
+    <div class="divider">
+      <span class="line"></span>
+      <span class="diamond">◇</span>
+      <span class="line"></span>
     </div>
-    <div class="info-card reveal">
-      <div class="icon">?</div>
-      <div class="label">新 娘</div>
-      <div class="value">新娘</div>
+
+    <div class="invite-text">
+      <p>诚挚邀请您<br>见证我们的幸福时刻</p>
+    </div>
+
+    <!-- Wedding Info -->
+    <div class="wedding-info">
+      <div class="info-row">
+        <span class="info-icon">♡</span>
+        <span class="info-label">新郎</span>
+        <span class="info-value">王 栓</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">♡</span>
+        <span class="info-label">新娘</span>
+        <span class="info-value">张 倩</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">✧</span>
+        <span class="info-label">时间</span>
+        <span class="info-value">2026年7月21日</span>
+      </div>
+    </div>
+
+    <!-- QR -->
+    <div class="qr-mini">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zhanghongen18-star.github.io/wedding/" alt="二维码">
+      <div class="qr-text">
+        <span>✦ 扫码查看婚纱照 ✦</span>
+        更多照片尽在纪念网站
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <p>— ♥ 感谢您的祝福 ♥ —</p>
     </div>
   </div>
-  <div class="invite-text story-text reveal" style="margin-top:32px;text-align:center">
-    <p>我们诚挚地邀请您<br>一同见证这份<em>来之不易的幸福</em><br>分享属于我们的<em>浪漫时刻</em></p>
-  </div>
-</section>
-
-<!-- ====== QR CODE ====== -->
-<section class="qr-section" id="qr">
-  <div class="qr-label">? 扫码浏览婚纱纪念网站 ?</div>
-  <div class="qr-code">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zhanghongen18-star.github.io/wedding/" alt="二维码">
-  </div>
-  <span class="qr-hint">用手机扫一扫 · 查看更多婚纱照</span>
-</section>
-
-<!-- ====== GUESTBOOK ====== -->
-<section class="section guestbook" id="guestbook">
-  <div class="section-title reveal">
-    <div class="ornament">? ? ?</div>
-    <h2>祝福留言</h2>
-    <p>写下您的祝福与心意</p>
-  </div>
-  <div class="guestbook-msg reveal">
-    <textarea id="msgInput" placeholder="写下您的祝福..."></textarea>
-    <button class="send-btn" id="sendMsg">? 发送祝福</button>
-  </div>
-  <div class="messages-list" id="messagesList"></div>
-</section>
-
-<!-- ====== ENDING ====== -->
-<section class="ending" id="ending">
-  <h2 class="reveal">以此纪念</h2>
-  <p class="reveal">愿你们的爱情，如星光般璀璨，<br>如花开般美好，如岁月般悠长。<br><br>从今往后，风雨同舟，共度余生。</p>
-  <div class="signature reveal">— Forever & Always —</div>
-  <div class="heart-line">? ? ? ? ?</div>
-</section>
-
-<!-- ====== FLOATING NAV ====== -->
-<nav class="floating-nav">
-  <a href="#story">故事</a><span class="sep">|</span>
-  <a href="#gallery">相册</a><span class="sep">|</span>
-  <a href="#info">邀请</a><span class="sep">|</span>
-  <a href="#guestbook">留言</a>
-</nav>
-
-<!-- ====== LIGHTBOX ====== -->
-<div class="lightbox" id="lightbox">
-  <button class="close" id="lbClose">?</button>
-  <img id="lbImg" src="" alt="">
 </div>
 
 <script>
-// ====== IMAGE CONFIG ======
-const IMAGE_CONFIG = {
-  "7d7f91d2ae1cc56e6efd0bc731d5a165.jpg":"wide",
-  "8ba54f4d58e2aaf575840c73773cd4dc.jpg":"tall",
-  "a0d9ab31b55aa1abed69982f4886f75a.jpg":"tall",
-  "b4868f5b57a909ac13b8c433a122199a.jpg":"tall",
-};
-const IMAGES = [
-  "098d49f9e95e9f05696dcc1ef1c0bd43.jpg",
-  "1f705a94c446997b64b28cf63bd0bb6f.jpg",
-  "3b458b04c1ae21b76a26a46f7134e0e6.jpg",
-  "6d99a2b2e7b85f9bca0211c0a5592364.jpg",
-  "7bb7e9501fd283e09606b8d601517ed2.jpg",
-  "7d7f91d2ae1cc56e6efd0bc731d5a165.jpg",
-  "7ef2b30fe7994d193c7640d1db0b10fc.jpg",
-  "8ba54f4d58e2aaf575840c73773cd4dc.jpg",
-  "8d8a43163b7ae461a8ff5e9e44376f09.jpg",
-  "a0d9ab31b55aa1abed69982f4886f75a.jpg",
-  "a83d1f8cc03e8d099ee02966907435b0.jpg",
-  "b4868f5b57a909ac13b8c433a122199a.jpg",
-  "c22416e62876c36e0d743a32e20e24e1.jpg",
-  "da81e949d95c542a2d3656362f971718.jpg",
-  "f0ccc586813948bfb43b52dfd36eed97.jpg",
-];
-const WEB_PATH="web/";
-const THUMB_PATH="thumbs/";
-
-// ====== LOADER ======
 window.addEventListener("load",()=>{setTimeout(()=>document.getElementById("loader").classList.add("hidden"),500)});
 
-// ====== PETALS ======
-(function(){
-  const c=document.getElementById("petals");
-  const syms=["?","?","?"];
-  for(let i=0;i<15;i++){
-    const p=document.createElement("div");p.className="petal";
-    p.style.left=Math.random()*100+"%";p.style.animationDuration=(10+Math.random()*10)+"s";
-    p.style.animationDelay=Math.random()*12+"s";p.style.width=(14+Math.random()*10)+"px";
-    p.style.height=(18+Math.random()*10)+"px";p.style.opacity=0.2+Math.random()*0.3;
-    if(Math.random()>0.5){
-      p.style.borderRadius="50%";p.textContent=syms[Math.floor(Math.random()*syms.length)];
-      p.style.background="none";p.style.color="var(--rose)";p.style.display="flex";
-      p.style.alignItems="center";p.style.justifyContent="center";p.style.fontSize=(12+Math.random()*8)+"px";
-    }
-    c.appendChild(p);
-  }
-})();
-
-// ====== SPARKLES ======
+// Sparkles
 (function(){
   const c=document.getElementById("sparkles");
-  const syms=["?","?","·","?"];
+  const syms=["✦","♥","·","✧"];
   for(let i=0;i<25;i++){
     const s=document.createElement("span");s.className="sparkle-star";
     s.textContent=syms[Math.floor(Math.random()*syms.length)];
     s.style.left=Math.random()*98+"%";s.style.top=Math.random()*98+"%";
     s.style.animationDuration=(4+Math.random()*5)+"s";s.style.animationDelay=Math.random()*8+"s";
-    s.style.fontSize=(5+Math.random()*8)+"px";s.style.opacity=0.1+Math.random()*0.4;
+    s.style.fontSize=(4+Math.random()*8)+"px";s.style.opacity=0.1+Math.random()*0.4;
     c.appendChild(s);
   }
 })();
-
-// ====== GALLERY ======
-function buildGallery(){
-  const g=document.getElementById("galleryGrid");
-  IMAGES.forEach((src,i)=>{
-    const item=document.createElement("div");item.className="gallery-item";
-    const cfg=IMAGE_CONFIG[src]||"normal";
-    if(cfg==="tall")item.classList.add("tall");
-    if(cfg==="wide")item.classList.add("wide");
-    item.style.transitionDelay=(i*0.08)+"s";
-    item.innerHTML='<img src="'+THUMB_PATH+src+'" alt="婚纱照 '+(i+1)+'" loading="lazy">';
-    item.addEventListener("click",()=>openLightbox(i));
-    g.appendChild(item);
-    new IntersectionObserver(([e])=>{if(e.isIntersecting){item.classList.add("visible");this.disconnect()}},{threshold:0.1}).observe(item);
-  });
-}
-buildGallery();
-
-// ====== LIGHTBOX ======
-let lbIdx=0;
-const lb=document.getElementById("lightbox"),lbImg=document.getElementById("lbImg");
-function openLightbox(i){lbIdx=i;lbImg.src=WEB_PATH+IMAGES[i];lb.classList.add("active");document.body.style.overflow="hidden"}
-document.getElementById("lbClose").addEventListener("click",()=>{lb.classList.remove("active");document.body.style.overflow=""});
-lb.addEventListener("click",(e)=>{if(e.target===lb){lb.classList.remove("active");document.body.style.overflow=""}});
-document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&lb.classList.contains("active")){lb.classList.remove("active");document.body.style.overflow=""}});
-
-// ====== SCROLL REVEAL ======
-const revealObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible")}});
-},{threshold:0.12});
-document.querySelectorAll(".reveal").forEach(el=>revealObs.observe(el));
-
-// ====== GUESTBOOK ======
-const msgs=JSON.parse(localStorage.getItem("wedding_msgs")||"[]");
-function renderMsgs(){
-  const list=document.getElementById("messagesList");list.innerHTML="";
-  msgs.forEach((m,i)=>{
-    const d=document.createElement("div");d.className="msg-item";
-    d.innerHTML='<div class="name">'+m.name+'</div><div class="content">'+m.text+'</div>';
-    list.appendChild(d);
-    setTimeout(()=>d.classList.add("visible"),i*100);
-  });
-}
-renderMsgs();
-document.getElementById("sendMsg").addEventListener("click",()=>{
-  const input=document.getElementById("msgInput");
-  const text=input.value.trim();if(!text)return;
-  msgs.push({name:"宾客",text:text,time:Date.now()});
-  localStorage.setItem("wedding_msgs",JSON.stringify(msgs));
-  input.value="";renderMsgs();
-});
-
-// ====== FLOATING NAV HIGHLIGHT ======
-const sections=document.querySelectorAll("section");
-const navLinks=document.querySelectorAll(".floating-nav a");
-window.addEventListener("scroll",()=>{
-  let current="";
-  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)current=s.id});
-  navLinks.forEach(a=>{a.classList.toggle("active",a.getAttribute("href")==="#"+current)});
-});
 </script>
 </body>
 </html>
-
