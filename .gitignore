@@ -1,0 +1,5 @@
+﻿# Original large files (keep local, not in git)
+*.jpg
+!thumbs/*.jpg
+!web/*.jpg
+_optimize.py
