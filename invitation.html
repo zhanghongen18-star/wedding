@@ -12,28 +12,25 @@ body{
   background:#0d0b0f;color:#f5ede8;overflow-x:hidden;min-height:100vh;
   display:flex;align-items:center;justify-content:center;
 }
-:root{--gold:#d4a76a;--gold-light:#e8c88a;--rose:#e8b4b8;--blush:#f2d7d5;--cream:#faf0e6;--dark:#0d0b0f;--warm:#1a1518}
+:root{--gold:#d4a76a;--gold-light:#e8c88a;--rose:#e8b4b8;--cream:#faf0e6;--dark:#0d0b0f;--warm:#1a1518}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#0d0b0f}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
-/* Loader */
 .loader{position:fixed;inset:0;z-index:10001;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0d0b0f;transition:opacity .8s ease,visibility .8s ease}
 .loader.hidden{opacity:0;visibility:hidden}
 .loader-ring{width:50px;height:50px;border:1px solid rgba(212,167,106,0.15);border-top-color:var(--gold);border-radius:50%;animation:lspin 1.2s linear infinite}
 @keyframes lspin{to{transform:rotate(360deg)}}
 .loader p{margin-top:16px;color:var(--gold);font-size:12px;letter-spacing:5px}
 
-/* Background */
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0}
 .bg-glow::before{content:"";position:absolute;width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(212,167,106,0.04) 0%,transparent 70%);border-radius:50%}
 
-/* Sparkles */
 .sparkle-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
 .sparkle-star{position:absolute;color:var(--gold-light);animation:shimmer linear infinite;font-size:7px;opacity:0}
 @keyframes shimmer{0%{opacity:0;transform:scale(0) rotate(0deg)}30%{opacity:0.6}100%{opacity:0;transform:scale(1.5) rotate(180deg) translateY(-20px)}}
 
-/* ====== INVITATION CARD ====== */
+/* Card */
 .card{
   position:relative;z-index:1;
   max-width:960px;width:calc(100% - 30px);
@@ -47,7 +44,7 @@ body{
 }
 @keyframes cardIn{0%{opacity:0;transform:translateY(30px) scale(0.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
 
-/* ====== LEFT: PHOTOS ====== */
+/* LEFT: Photos */
 .card-photos{
   flex:0 0 46%;
   display:flex;flex-direction:column;
@@ -67,110 +64,77 @@ body{
   pointer-events:none;
 }
 
-/* ====== RIGHT: CONTENT ====== */
+/* RIGHT: Content */
 .card-content{
   flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:50px 40px;position:relative;
+  padding:44px 36px;position:relative;
 }
 .card-content::before{
   content:"";position:absolute;left:0;top:10%;bottom:10%;width:1px;
   background:linear-gradient(180deg,transparent,var(--gold),transparent);
 }
 
-/* Ornament top */
-.top-ornament{
-  font-size:13px;letter-spacing:8px;color:var(--gold);opacity:0.4;margin-bottom:12px;
-  animation:fadeUp 0.8s ease 0.6s both;
-}
+.top-ornament{font-size:12px;letter-spacing:8px;color:var(--gold);opacity:0.4;margin-bottom:10px;animation:fadeUp 0.8s ease 0.6s both}
 
-/* Title */
-.invite-title{
-  text-align:center;margin-bottom:24px;
-  animation:fadeUp 0.8s ease 0.8s both;
-}
+.invite-title{text-align:center;margin-bottom:6px;animation:fadeUp 0.8s ease 0.8s both}
 .invite-title h1{
   font-family:"Playfair Display",serif;
-  font-size:clamp(22px,2.8vw,36px);font-weight:400;color:var(--cream);
-  letter-spacing:8px;margin-bottom:4px;
+  font-size:clamp(20px,2.5vw,34px);font-weight:400;color:var(--cream);
+  letter-spacing:6px;margin-bottom:2px;
 }
 .invite-title .sub{
   font-family:"Playfair Display",serif;
-  font-size:clamp(13px,1.5vw,18px);font-style:italic;color:var(--gold);font-weight:300;
+  font-size:clamp(12px,1.3vw,16px);font-style:italic;color:var(--gold);font-weight:300;
 }
 
-/* Divider */
-.divider{
-  display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px;
-  animation:fadeUp 0.8s ease 1s both;
-}
-.divider .line{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.divider{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;animation:fadeUp 0.8s ease 1s both}
+.divider .line{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .divider .line:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
-.divider .diamond{color:var(--gold);font-size:7px}
+.divider .diamond{color:var(--gold);font-size:6px}
 
-/* Invite text */
-.invite-text{
-  text-align:center;margin-bottom:24px;
+/* Wedding info - cleaner compact */
+.wedding-info{
+  width:100%;max-width:340px;padding:16px 20px;
+  border:1px solid rgba(212,167,106,0.12);border-radius:6px;
+  background:rgba(212,167,106,0.03);
   animation:fadeUp 0.8s ease 1.2s both;
 }
-.invite-text p{
-  font-size:clamp(13px,1.2vw,15px);color:var(--cream);opacity:0.7;line-height:1.9;
-  font-weight:300;
-}
-
-/* Wedding info */
-.wedding-info{
-  width:100%;max-width:360px;padding:20px 24px;
-  border:1px solid rgba(212,167,106,0.12);border-radius:6px;
-  background:rgba(212,167,106,0.03);margin-bottom:20px;
-  animation:fadeUp 0.8s ease 1.4s both;
-}
 .wedding-info .info-row{
-  display:flex;align-items:center;gap:12px;padding:6px 0;
+  display:flex;align-items:center;gap:10px;padding:5px 0;
 }
-.wedding-info .info-row:not(:last-child){border-bottom:1px solid rgba(212,167,106,0.06);margin-bottom:6px;padding-bottom:10px}
-.wedding-info .info-icon{color:var(--gold);font-size:16px;width:24px;text-align:center;flex-shrink:0}
-.wedding-info .info-label{font-size:12px;letter-spacing:2px;color:var(--gold);opacity:0.6;width:56px;flex-shrink:0}
+.wedding-info .info-row:not(:last-child){border-bottom:1px solid rgba(212,167,106,0.06);margin-bottom:4px;padding-bottom:9px}
+.wedding-info .info-icon{color:var(--gold);font-size:15px;width:22px;text-align:center;flex-shrink:0}
+.wedding-info .info-label{font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.6;width:50px;flex-shrink:0}
 .wedding-info .info-value{font-size:clamp(13px,1.1vw,16px);color:var(--cream);opacity:0.9;letter-spacing:1px}
 
-/* QR */
-.qr-mini{
-  display:flex;align-items:center;gap:12px;
-  padding:10px 18px;border:1px solid rgba(212,167,106,0.08);border-radius:6px;
-  background:rgba(212,167,106,0.02);
-  animation:fadeUp 0.8s ease 1.6s both;
+/* Actions */
+.card-actions{
+  margin-top:14px;display:flex;gap:10px;align-items:center;
+  animation:fadeUp 0.8s ease 1.4s both;
 }
-.qr-mini img{width:50px;height:50px;border-radius:4px;display:block}
-.qr-mini .qr-text{font-size:11px;color:var(--cream);opacity:0.5;letter-spacing:1px;line-height:1.5}
-.qr-mini .qr-text span{display:block;color:var(--gold);opacity:0.6;font-size:12px;margin-bottom:2px;letter-spacing:2px}
+.action-btn{
+  padding:8px 20px;
+  background:transparent;border:1px solid rgba(212,167,106,0.15);
+  color:var(--cream);font-family:"Noto Serif SC",serif;
+  font-size:12px;letter-spacing:2px;cursor:pointer;
+  transition:all .3s ease;border-radius:4px;text-decoration:none;
+}
+.action-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
 
-/* Footer */
-.card-footer{
-  margin-top:20px;padding-top:14px;border-top:1px solid rgba(212,167,106,0.06);
-  text-align:center;width:100%;
-  animation:fadeUp 0.8s ease 1.8s both;
-}
-.card-footer p{
-  font-family:"Playfair Display",serif;font-size:12px;font-style:italic;
-  color:var(--gold);opacity:0.5;letter-spacing:3px;
-}
-
-/* Animations */
 @keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 
-/* ====== RESPONSIVE ====== */
 @media(max-width:768px){
-  .card{flex-direction:column;min-height:auto;max-width:440px}
+  .card{flex-direction:column;min-height:auto;max-width:420px}
   .card-photos{flex:none}
-  .card-photos .photo-item{min-height:200px}
-  .card-content{padding:32px 24px 28px}
+  .card-photos .photo-item{min-height:180px}
+  .card-content{padding:28px 20px 24px}
   .card-content::before{display:none}
   .wedding-info{max-width:100%}
-  .invite-title h1{font-size:clamp(20px,5vw,28px)}
+  .card-actions{flex-direction:column}
 }
 @media(max-width:480px){
-  .card-photos .photo-item{min-height:160px}
-  .card-content{padding:24px 18px 24px}
-  .qr-mini{flex-direction:column;text-align:center}
+  .card-photos .photo-item{min-height:140px}
+  .card-content{padding:22px 16px 20px}
 }
 </style>
 </head>
@@ -180,32 +144,19 @@ body{
 <div class="sparkle-overlay" id="sparkles"></div>
 
 <div class="card">
-  <!-- LEFT: Photos -->
   <div class="card-photos">
     <div class="photo-item"><img src="web/invite_top.jpg" alt="婚纱照"></div>
     <div class="photo-item"><img src="web/invite_bottom.jpg" alt="婚纱照"></div>
     <div class="overlay"></div>
   </div>
-  <!-- RIGHT: Content -->
   <div class="card-content">
     <div class="top-ornament">✦ ✦ ✦</div>
-
     <div class="invite-title">
       <h1>结婚邀请</h1>
       <div class="sub">Wedding Invitation</div>
     </div>
+    <div class="divider"><span class="line"></span><span class="diamond">◇</span><span class="line"></span></div>
 
-    <div class="divider">
-      <span class="line"></span>
-      <span class="diamond">◇</span>
-      <span class="line"></span>
-    </div>
-
-    <div class="invite-text">
-      <p>诚挚邀请您<br>见证我们的幸福时刻</p>
-    </div>
-
-    <!-- Wedding Info -->
     <div class="wedding-info">
       <div class="info-row">
         <span class="info-icon">♡</span>
@@ -224,25 +175,14 @@ body{
       </div>
     </div>
 
-    <!-- QR -->
-    <div class="qr-mini">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zhanghongen18-star.github.io/wedding/" alt="二维码">
-      <div class="qr-text">
-        <span>✦ 扫码查看婚纱照 ✦</span>
-        更多照片尽在纪念网站
-      </div>
-    </div>
-
-    <div class="card-footer">
-      <p>— ♥ 感谢您的祝福 ♥ —</p>
+    <div class="card-actions">
+      <span style="font-size:11px;color:var(--gold);opacity:0.4;letter-spacing:1px">— 感 谢 祝 福 —</span>
     </div>
   </div>
 </div>
 
 <script>
 window.addEventListener("load",()=>{setTimeout(()=>document.getElementById("loader").classList.add("hidden"),500)});
-
-// Sparkles
 (function(){
   const c=document.getElementById("sparkles");
   const syms=["✦","♥","·","✧"];
