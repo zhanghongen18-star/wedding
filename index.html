@@ -534,8 +534,8 @@ nav ul li a:hover::after{width:100%}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
 @media(max-width:480px){
-  .gallery-grid{grid-template-columns:1fr 1fr;grid-auto-rows:110px;gap:6px}
-  .gallery-item.wide{grid-column:auto}
+  .gallery-grid{column-count:2;column-gap:8px}
+  
   .game-container{max-width:320px;gap:6px}
   .game-card-front,.game-card-back{font-size:18px}
   .hero-content h1{font-size:clamp(32px,12vw,48px)}
@@ -691,32 +691,63 @@ nav ul li a:hover::after{width:100%}
 // ========== 图片布局配置 ==========
 // "tall"→竖图跨2行  "wide"→横图跨2列  "normal"→标准
 // 想调整直接改下面的值就行，一目了然
-const IMAGE_CONFIG = {
-  "7d7f91d2ae1cc56e6efd0bc731d5a165.jpg": "wide",   // 超宽全景横图
-  "8ba54f4d58e2aaf575840c73773cd4dc.jpg": "tall",   // 竖图
-  "a0d9ab31b55aa1abed69982f4886f75a.jpg": "tall",   // 竖图
-  "b4868f5b57a909ac13b8c433a122199a.jpg": "tall",   // 竖图
-};
+const IMAGE_CONFIG = {};
 // ====================================
 const IMAGES = [
   "098d49f9e95e9f05696dcc1ef1c0bd43.jpg",
+  "0ba8b481525a3714d203e3af2249353e.jpg",
+  "0baa19f18c716925cb72ec3513aa0e3e.jpg",
+  "13b92b8d02c826ebe4dd683cf53df6b2.jpg",
+  "158f68c59c23d8ea69b1dc8a877520a6.jpg",
+  "1cc27710cf09e13ceecab1e5f18fb64a.jpg",
   "1f705a94c446997b64b28cf63bd0bb6f.jpg",
+  "2bd41cb8085ca1686327542a224c3488.jpg",
+  "396c53fa1b43eba272458ce5ab6896f6.jpg",
   "3b458b04c1ae21b76a26a46f7134e0e6.jpg",
+  "3d3f44907088bfa0ac73c58e56b3fe21.jpg",
+  "4596b03d08f52330c28599e884788699.jpg",
+  "4996beab20cd9ce36a8c50a6075b61ae.jpg",
+  "52655bde8e8337854b3c4d9bd624e422.jpg",
+  "55eded69694950baa1e75e4cbead0e38.jpg",
+  "5667ee2e6a6d3df56077434db6a706cf.jpg",
+  "6792bed57d0168fe6c1f6ffffa3a6938.jpg",
   "6d99a2b2e7b85f9bca0211c0a5592364.jpg",
+  "71bcccc0d0ccd0322443c08e963c684b.jpg",
+  "77e6f67468b522722e38822502c39e95.jpg",
+  "781729406b6cdba9cf3e41e8f8157768.jpg",
   "7bb7e9501fd283e09606b8d601517ed2.jpg",
   "7d7f91d2ae1cc56e6efd0bc731d5a165.jpg",
   "7ef2b30fe7994d193c7640d1db0b10fc.jpg",
+  "83263783c9dffef5a0d1e6422d1539bb.jpg",
   "8ba54f4d58e2aaf575840c73773cd4dc.jpg",
   "8d8a43163b7ae461a8ff5e9e44376f09.jpg",
+  "978b03ba210a5d5b54a55fba465fb855.jpg",
+  "98d8d40204eb2f30eb5ce6d00395a49a.jpg",
+  "9d950a78ad566925892704926dd33a7f.jpg",
+  "9efb2f250b92901b53fa339b5f97a39b.jpg",
+  "9fe10891eceb2965b225142072e91628.jpg",
   "a0d9ab31b55aa1abed69982f4886f75a.jpg",
   "a83d1f8cc03e8d099ee02966907435b0.jpg",
+  "aaf9aa73ecb797433eb2a28edca61b1b.jpg",
   "b4868f5b57a909ac13b8c433a122199a.jpg",
+  "b52ed3e3781c58d6401c4fe8f40afdcc.jpg",
+  "b6499225e0a5a32f82cee251a675001b.jpg",
+  "b787b3cb2d3acf2b564b23934d9537c3.jpg",
+  "be202e05919a43bb351f07190b10d599.jpg",
+  "c1a77f297de324b460e3dbe148e8be8d.jpg",
   "c22416e62876c36e0d743a32e20e24e1.jpg",
+  "c2667871e2e420e634d2e9df9bb234fb.jpg",
+  "c5868aca5b9cbf64b16bd9ffdbf8c8cd.jpg",
+  "c69db9cc7057301c18be053db1385e48.jpg",
+  "d642fb4099203b8d37f1762c0f9bf018.jpg",
   "da81e949d95c542a2d3656362f971718.jpg",
-  "f0ccc586813948bfb43b52dfd36eed97.jpg",
+  "df957257db17ad1c4c7d6bf9995ab83a.jpg",
+  "ed083b9b711d1bbd6c475a28b82ebdff.jpg",
+  "efbe9bfd54b5a8ca4ed8e7efb0c731b5.jpg",
+  "f0ccc586813948bfb43b52dfd36eed97.jpg"
 ];
 
-const THUMB_PATH = 'thumbs/';
+const THUMB_PATH = 'web/';
 const WEB_PATH = 'web/';
 document.getElementById('heroBg').style.backgroundImage = 'url("' + WEB_PATH+IMAGES[0] + '")';
 window.addEventListener('load',()=>{
@@ -762,7 +793,7 @@ function buildGallery(){
   IMAGES.forEach((src,i)=>{
     const item=document.createElement('div');
     item.className='gallery-item';
-    const cfg = IMAGE_CONFIG[src] || "normal";
+    
     if(cfg==="tall") item.classList.add('tall');
     if(cfg==="wide") item.classList.add('wide');
     item.style.transitionDelay=(i*0.08)+'s';
@@ -914,4 +945,6 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
+
+
 
