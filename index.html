@@ -323,12 +323,12 @@ nav ul li a:hover::after{width:100%}
 .puzzle-section{padding:100px 30px 60px;background:linear-gradient(180deg,#0d0b0f,#1a1518);text-align:center}
 .puzzle-wrapper{max-width:500px;margin:40px auto 0}
 .puzzle-container{display:flex;gap:20px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
-.puzzle-board{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:min(80vw,360px);aspect-ratio:1;background:#1a1518;border-radius:8px;padding:4px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.puzzle-board{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:min(80vw,360px);height:min(80vw,360px);background:#1a1518;border-radius:8px;padding:4px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
 .puzzle-tile{position:relative;border-radius:4px;cursor:pointer;overflow:hidden;transition:transform 0.15s ease;background-size:cover;background-position:center}
 .puzzle-tile:hover{transform:scale(1.04);z-index:2}
 .puzzle-tile.empty{background:rgba(212,167,106,0.08)!important;border:1px dashed rgba(212,167,106,0.2);cursor:default}
 .puzzle-tile.empty:hover{transform:none}
-.puzzle-preview{width:min(20vw,100px);aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(212,167,106,0.15);flex-shrink:0;background-size:cover;background-position:center;opacity:0.7}
+.puzzle-preview{width:min(20vw,100px);height:min(20vw,100px);border-radius:6px;overflow:hidden;border:1px solid rgba(212,167,106,0.15);flex-shrink:0;background-size:cover;background-position:center;opacity:0.7}
 .puzzle-controls{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:16px}
 .puzzle-moves{color:#b8a99a;font-size:14px;letter-spacing:2px}
 .puzzle-moves span{color:var(--gold)}
@@ -336,7 +336,7 @@ nav ul li a:hover::after{width:100%}
 .puzzle-win.show{opacity:1}
 @media(max-width:600px){.puzzle-board{width:85vw}.puzzle-section{padding:60px 16px 40px}}
 @media(max-width:400px){.puzzle-board{width:90vw;gap:2px;padding:3px}.puzzle-preview{display:none}}
-.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:600px;margin:40px auto 0;perspective:1000px}
+.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:600px;margin:40px auto 0;perspective:1000px}.game-container>*{aspect-ratio:1}
 .game-card{
   aspect-ratio:1;
   cursor:pointer;
