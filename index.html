@@ -842,6 +842,7 @@ document.addEventListener('keydown',(e)=>{
 });
 let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const GAME_SYMBOLS=["♡","♥","✿","🌸","⭐","🌙"];
 
 // ===== Puzzle Game =====
 var PUZZLE_IMG="https://raw.githubusercontent.com/zhanghongen18-star/wedding/main/thumbs/9efb2f250b92901b53fa339b5f97a39b.jpg";
