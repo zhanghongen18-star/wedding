@@ -775,7 +775,10 @@ document.getElementById('lbNext').addEventListener('click',()=>lbNav(1));
 lb.addEventListener('click',(e)=>{if(e.target===lb)closeLightbox()});
 lb.addEventListener('touchend',function(e){if(e.target===lb)closeLightbox()});
 document.addEventListener('keydown',(e)=>{
-const GAME_SYMBOLS=['♡','♥','✿','🌸','⭐','🌙'];
+  if(e.key==="Escape")closeLightbox();
+  if(e.key==="ArrowLeft")lbNav(-1);
+  if(e.key==="ArrowRight")lbNav(1);
+});
 let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function initGame(){
