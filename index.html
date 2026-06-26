@@ -711,9 +711,10 @@ const IMAGES = [
 const THUMB_PATH = 'thumbs/';
 const WEB_PATH = 'web/';
 document.getElementById('heroBg').style.backgroundImage = 'url("' + WEB_PATH+IMAGES[0] + '")';
-window.addEventListener('load',()=>{
-  setTimeout(function(){ document.getElementById('pageLoader').classList.add('hidden'); },600);
+document.addEventListener('DOMContentLoaded',function(){
+  setTimeout(function(){ document.getElementById('pageLoader').classList.add('hidden'); },800);
 });
+setTimeout(function(){ var el=document.getElementById('pageLoader'); if(el&&!el.classList.contains('hidden'))el.classList.add('hidden'); },3000);
 document.getElementById('entryOverlay').addEventListener('click',()=>{
   document.getElementById('entryOverlay').classList.add('hidden');
   createPetals();
@@ -882,11 +883,11 @@ console.log('💕 祝福新人：永结同心，百年好合！');
     else{audio.pause();btn.classList.add("paused")}
   }
   btn.addEventListener("click",toggle);
-  window.addEventListener("load",()=>{
-    setTimeout(function(){
-      audio.play().then(()=>btn.classList.remove("paused")).catch(()=>btn.classList.add("paused"));
-    },1500);
-  });
+  setTimeout(function(){
+    audio.play().then(function(){btn.classList.remove('paused')}).catch(function(){btn.classList.add('paused')});
+  },2000);
+
+
   document.addEventListener("click",()=>{
     if(audio.paused){
       audio.play().then(()=>btn.classList.remove("paused")).catch(()=>{});
