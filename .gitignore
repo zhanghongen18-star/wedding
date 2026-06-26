@@ -1,5 +1,10 @@
-﻿# Original large files (keep local, not in git)
+# Original large files (keep local, not in git)
 *.jpg
 !thumbs/*.jpg
 !web/*.jpg
 _optimize.py
+
+# Gitee: too large for free plan
+web/*
+*.flac
+*.mp3
