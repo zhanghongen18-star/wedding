@@ -2,6 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我们的爱情故事 — 婚纱纪念</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -769,7 +772,14 @@ function buildGallery(){
     const item=document.createElement('div');
     item.className='gallery-item';
     item.style.transitionDelay=(i*0.08)+'s';
-    item.innerHTML='<img src="'+THUMB_PATH+src+'" alt="婚纱照 '+(i+1)+'" loading="lazy"><div class="overlay-hover"></div>';
+    var img=document.createElement('img');
+    img.src=THUMB_PATH+src;
+    img.alt='婚纱照 '+(i+1);
+    img.loading='lazy';
+    item.appendChild(img);
+    var oh=document.createElement('div');
+    oh.className='overlay-hover';
+    item.appendChild(oh);
     item.addEventListener('click',()=>openLightbox(i));
     item.classList.add('visible');
     grid.appendChild(item);
