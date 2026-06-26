@@ -50,7 +50,7 @@ img{max-width:100%;height:auto;display:block}
   100%{transform:translateY(110vh) rotate(720deg) translateX(120px);opacity:0}
 }
 .entry-overlay{
-  position:fixed;inset:0;z-index:10000;
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:#0d0b0f;
   transition:opacity 1.2s ease,visibility 1.2s ease;
@@ -142,7 +142,7 @@ nav ul li a:hover::after{width:100%}
   display:flex;align-items:center;justify-content:center;
 }
 .hero-bg{
-  position:absolute;inset:0;
+  position:absolute;top:0;left:0;right:0;bottom:0;
   background:center/cover no-repeat;
   transform:scale(1.12);
   transition:transform 8s ease;
@@ -151,7 +151,7 @@ nav ul li a:hover::after{width:100%}
 }
 .hero:hover .hero-bg{transform:scale(1)}
 .hero::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
   background:linear-gradient(180deg,
     rgba(13,11,15,0.3) 0%,
     rgba(13,11,15,0.1) 40%,
@@ -296,9 +296,13 @@ nav ul li a:hover::after{width:100%}
 .gallery-item{flex:1 1 240px;max-width:360px;min-width:160px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:1;transform:translateY(0);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
 .gallery-item.visible{opacity:1;transform:translateY(0)}
 .gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
+
 .gallery-item img{width:100%;height:auto;max-height:350px;object-fit:contain;display:block;background:#1a1518;transition:transform 0.8s ease}
+/* WeChat browser compat */
+.gallery-item{display:flex;align-items:center;justify-content:center;background:#1a1518;min-height:200px}
+.gallery-item img{flex-shrink:0}
 .gallery-item:hover img{transform:scale(1.03)}
-.gallery-item .overlay-hover{position:absolute;inset:0;background:rgba(212,167,106,0.06);opacity:0;transition:opacity 0.4s;pointer-events:none}
+.gallery-item .overlay-hover{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(212,167,106,0.06);opacity:0;transition:opacity 0.4s;pointer-events:none}
 .gallery-item:hover .overlay-hover{opacity:1}
 .game-section{
   padding:100px 30px 120px;
@@ -326,7 +330,7 @@ nav ul li a:hover::after{width:100%}
   box-shadow:0 0 20px rgba(212,167,106,0.2);
 }
 .game-card-front,.game-card-back{
-  position:absolute;inset:0;
+  position:absolute;top:0;left:0;right:0;bottom:0;
   display:flex;align-items:center;justify-content:center;
   border-radius:8px;
   backface-visibility:hidden;
@@ -414,7 +418,7 @@ nav ul li a:hover::after{width:100%}
   color:var(--rose);opacity:0.5;
 }
 .lightbox{
-  position:fixed;inset:0;z-index:9500;
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:9500;
   display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,0,0.92);
   opacity:0;visibility:hidden;
@@ -522,7 +526,7 @@ nav ul li a:hover::after{width:100%}
   100%{transform:scale(1.5) rotate(180deg) translateY(-40px);opacity:0}
 }
 .page-loader{
-  position:fixed;inset:0;z-index:10001;
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;
   background:#0d0b0f;
   display:flex;align-items:center;justify-content:center;
   flex-direction:column;
@@ -560,6 +564,13 @@ nav ul li a:hover::after{width:100%}
 .music-btn .note-off{display:none}
 .music-spin{animation:spin 3s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* WeChat browser compat - inset polyfill */
+.entry-overlay,.page-loader,.lightbox,.hero-bg,.hero::before,.gallery-item .overlay-hover,.game-card-back{top:0;left:0;right:0;bottom:0}
+/* WeChat clamp() polyfill via max/min fallback */
+.hero-content h1{font-size:42px;font-size:clamp(42px,8vw,110px)}
+@media(max-width:600px){.hero-content h1{font-size:32px}}
+
 </style>
 </head>
 <body>
