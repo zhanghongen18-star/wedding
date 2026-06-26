@@ -336,6 +336,7 @@ nav ul li a:hover::after{width:100%}
 .puzzle-win.show{opacity:1}
 @media(max-width:600px){.puzzle-board{width:85vw}.puzzle-section{padding:60px 16px 40px}}
 @media(max-width:400px){.puzzle-board{width:90vw;gap:2px;padding:3px}.puzzle-preview{display:none}}
+.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:600px;margin:40px auto 0;perspective:1000px}
 .game-card{
   aspect-ratio:1;
   cursor:pointer;
@@ -906,7 +907,7 @@ function clickPuzzle(idx){
     if(msg)msg.classList.add("show");
   }
 }
-setTimeout(function(){initPuzzle();},100);
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){initPuzzle();});}else{initPuzzle();}
 var sb=document.getElementById("shufflePuzzle");
 if(sb)sb.addEventListener("click",function(){initPuzzle();});
 
@@ -974,7 +975,7 @@ function createCelebration(){
   setTimeout(()=>sp.remove(),1000);
 }
 document.getElementById('resetGame').addEventListener('click',initGame);
-initGame();
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){initGame();});}else{initGame();}
 const revealEls=document.querySelectorAll('.reveal');
 const revealObs=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)} });
