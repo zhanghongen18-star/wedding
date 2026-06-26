@@ -3,8 +3,3 @@
 !thumbs/*.jpg
 !web/*.jpg
 _optimize.py
-
-# Gitee: too large for free plan
-web/*
-*.flac
-*.mp3
