@@ -336,7 +336,7 @@ nav ul li a:hover::after{width:100%}
 .puzzle-win.show{opacity:1}
 @media(max-width:600px){.puzzle-board{width:85vw;height:85vw;max-height:320px.puzzle-section{padding:60px 16px 40px}}
 @media(max-width:400px){.puzzle-board{width:90vw;height:90vw;gap:2px;padding:3px}.puzzle-preview{display:none}}
-.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:400px;margin:40px auto 0;perspective:1000px}.game-container>*{aspect-ratio:1}
+.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:400px;margin:40px auto 0;perspective:1000px}.game-container>*{aspect-ratio:1}.game-card{min-height:70px}
 .game-card{
   aspect-ratio:1;
   cursor:pointer;
@@ -879,14 +879,18 @@ function renderPuzzle(){
       tile.className='puzzle-tile';
       var row=Math.floor(val/3);
       var col=val%3;
-      tile.style.background='url(\"'+PUZZLE_IMG+'\") no-repeat';      tile.style.backgroundSize='300% 300%';
+      tile.style.backgroundImage="url("+PUZZLE_IMG+")";
+      tile.style.backgroundSize="300% 300%";
+      tile.style.backgroundRepeat="no-repeat";
       tile.style.backgroundPosition=(-col*100)+'% '+(-row*100)+'%';
       tile.onclick=function(idx){return function(){clickPuzzle(idx);}}(i);
     }
     b.appendChild(tile);
   }
   var pv=document.getElementById('puzzlePreview');
-  if(pv) pv.style.background='url(\"'+PUZZLE_IMG+'\") no-repeat';  if(pv) pv.style.backgroundSize='cover';
+  if(pv)pv.style.backgroundImage="url("+PUZZLE_IMG+")";
+  if(pv)pv.style.backgroundSize="cover";
+  if(pv)pv.style.backgroundRepeat="no-repeat";
 }
 function clickPuzzle(idx){
   if(pt[idx]===8)return;
