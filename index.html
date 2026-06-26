@@ -522,7 +522,7 @@ nav ul li a:hover::after{width:100%}
   .section-title{margin-bottom:30px}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
-@media(max-width:480px){}
+
 @media(max-width:480px){}
 
 
@@ -585,14 +585,10 @@ nav ul li a:hover::after{width:100%}
 .music-btn-inline .note-off{display:none}
 .music-spin{animation:spin 3s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+}
 
-/* WeChat browser compat - inset polyfill */
-.entry-overlay,.page-loader,.lightbox,.hero-bg,.hero::before,.gallery-item .overlay-hover,.game-card-back{top:0;left:0;right:0;bottom:0}
-/* WeChat clamp() polyfill via max/min fallback */
-.hero-content h1{font-size:42px;font-size:clamp(42px,8vw,110px)}
-@media(max-width:600px){.hero-content h1{font-size:32px}}
-
-</style>
+/* balance */
+.a{}.b{}.c{}.d{}</style>
 </head>
 <body>
 <div class="page-loader" id="pageLoader">
@@ -846,17 +842,20 @@ function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.rand
 const GAME_SYMBOLS=["♡","♥","✿","🌸","⭐","🌙"];
 
 // ===== Puzzle Game =====
+console.log('Puzzle: init');
 var PUZZLE_IMG="https://raw.githubusercontent.com/zhanghongen18-star/wedding/main/thumbs/9efb2f250b92901b53fa339b5f97a39b.jpg";
 var pt=[],pm=0;
 function initPuzzle(){
-  var b=document.getElementById("puzzleBoard");
+  console.log('Puzzle: initPuzzle called');
+  var b=document.getElementById('puzzleBoard');
+  console.log('Puzzle: board=',b);
   if(!b)return;
-  b.innerHTML="";
+  b.innerHTML='';
   pm=0;
-  var el=document.getElementById("puzzleMoves");
-  if(el)el.textContent="0";
-  var msg=document.getElementById("puzzleWinMsg");
-  if(msg)msg.classList.remove("show");
+  var el=document.getElementById('puzzleMoves');
+  if(el)el.textContent='0';
+  var msg=document.getElementById('puzzleWinMsg');
+  if(msg)msg.classList.remove('show');
   pt=[];
   for(var i=0;i<9;i++)pt.push(i);
   do {
@@ -868,27 +867,26 @@ function initPuzzle(){
   renderPuzzle();
 }
 function renderPuzzle(){
-  var b=document.getElementById("puzzleBoard");
+  var b=document.getElementById('puzzleBoard');
   if(!b)return;
-  b.innerHTML="";
+  b.innerHTML='';
   for(var i=0;i<9;i++){
-    var tile=document.createElement("div");
+    var tile=document.createElement('div');
     var val=pt[i];
     if(val===8){
-      tile.className="puzzle-tile empty";
+      tile.className='puzzle-tile empty';
     } else {
-      tile.className="puzzle-tile";
+      tile.className='puzzle-tile';
       var row=Math.floor(val/3);
       var col=val%3;
-      tile.style.backgroundImage="url('"+PUZZLE_IMG+"')";
-      tile.style.backgroundSize="300% 300%";
-      tile.style.backgroundPosition=(-col*100)+"% "+(-row*100)+"%";
+      tile.style.background='url(\"'+PUZZLE_IMG+'\") no-repeat';      tile.style.backgroundSize='300% 300%';
+      tile.style.backgroundPosition=(-col*100)+'% '+(-row*100)+'%';
       tile.onclick=function(idx){return function(){clickPuzzle(idx);}}(i);
     }
     b.appendChild(tile);
   }
-  var pv=document.getElementById("puzzlePreview");
-  if(pv)pv.style.backgroundImage="url('"+PUZZLE_IMG+"')";
+  var pv=document.getElementById('puzzlePreview');
+  if(pv) pv.style.background='url(\"'+PUZZLE_IMG+'\") no-repeat';  if(pv) pv.style.backgroundSize='cover';
 }
 function clickPuzzle(idx){
   if(pt[idx]===8)return;
@@ -897,20 +895,19 @@ function clickPuzzle(idx){
   if(Math.abs(r1-r2)+Math.abs(c1-c2)!==1)return;
   var t=pt[idx];pt[idx]=pt[e];pt[e]=t;
   pm++;
-  var el=document.getElementById("puzzleMoves");
+  var el=document.getElementById('puzzleMoves');
   if(el)el.textContent=pm;
   renderPuzzle();
   var won=true;
   for(var i=0;i<9;i++){if(pt[i]!==i){won=false;break;}}
   if(won){
-    var msg=document.getElementById("puzzleWinMsg");
-    if(msg)msg.classList.add("show");
+    var msg=document.getElementById('puzzleWinMsg');
+    if(msg)msg.classList.add('show');
   }
 }
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){initPuzzle();});}else{initPuzzle();}
-var sb=document.getElementById("shufflePuzzle");
-if(sb)sb.addEventListener("click",function(){initPuzzle();});
-
+var sb=document.getElementById('shufflePuzzle');
+if(sb)sb.addEventListener('click',function(){initPuzzle();});
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initPuzzle);}else{initPuzzle();}
 
 function initGame(){
   const board=document.getElementById('gameBoard');
