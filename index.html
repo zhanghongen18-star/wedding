@@ -577,7 +577,6 @@ nav ul li a:hover::after{width:100%}
 </style>
 </head>
 <body>
-<!-- WECHAT_IMAGE_TEST --><img src="https://zhanghongen18-star.github.io/wedding/thumbs/098d49f9e95e9f05696dcc1ef1c0bd43.jpg" style="position:fixed;bottom:10px;right:10px;width:100px;z-index:99999;border:2px solid red;" id="testImg">
 <div class="page-loader" id="pageLoader">
   <div class="loader-ring"></div>
   <p>加载中 ...</p>
@@ -723,8 +722,8 @@ const IMAGES = [
   "f0ccc586813948bfb43b52dfd36eed97.jpg"
 ];
 
-const THUMB_PATH = 'thumbs/';
-const WEB_PATH = 'web/';
+const THUMB_PATH = 'https://cdn.jsdelivr.net/gh/zhanghongen18-star/wedding@main/thumbs/';
+const WEB_PATH = 'https://cdn.jsdelivr.net/gh/zhanghongen18-star/wedding@main/web/';
 document.getElementById('heroBg').style.backgroundImage = 'url("' + WEB_PATH+IMAGES[0] + '")';
 document.addEventListener('DOMContentLoaded',function(){
   setTimeout(function(){ var pl=document.getElementById('pageLoader'); if(pl)pl.classList.add('hidden'); },800);
@@ -894,7 +893,7 @@ window.addEventListener('scroll',()=>{
 console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 <audio id="bgm" loop preload="none">
-  <source src="web/bgm_main.flac" type="audio/flac">
+  <source src="https://cdn.jsdelivr.net/gh/zhanghongen18-star/wedding@main/web/bgm_main.flac" type="audio/flac">
 </audio>
 <button class="music-btn" id="musicToggle" style="display:none">
   <span class="note-on music-spin">♫</span>
@@ -924,7 +923,6 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
-
 
 
 
