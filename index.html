@@ -383,20 +383,20 @@ nav ul li a:hover::after{width:100%}
 }
 .game-msg.show{opacity:1}
 
-.message-section{padding:100px 20px;background:linear-gradient(180deg,#1a1518,#0d0b0f);text-align:center}
-.message-content{max-width:700px;margin:50px auto 0}
-.message-card{background:rgba(212,167,106,0.05);border:1px solid rgba(212,167,106,0.15);border-radius:16px;padding:60px 40px;position:relative}
-.quote-mark{font-size:80px;color:rgba(212,167,106,0.15);font-family:Georgia,serif;line-height:0.5;text-align:left}
-.quote-mark.end{text-align:right;margin-top:20px}
-.message-text{font-size:20px;line-height:2;color:#f5ede8;letter-spacing:3px;margin:8px 0;font-family:'Noto Serif SC','华文楷体',serif}
-.message-sign{font-size:14px;color:#b8a99a;letter-spacing:2px;margin-top:40px;text-align:right;font-style:italic}
+.message-section{padding:100px 20px;background:linear-gradient(180deg,#1a1518,#120e12);text-align:center;min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.message-content{max-width:720px;margin:40px auto 0;width:100%}
+.message-card{background:linear-gradient(135deg,rgba(212,167,106,0.08),rgba(212,167,106,0.03));border:1px solid rgba(212,167,106,0.2);border-radius:20px;padding:60px 50px;position:relative;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.quote-mark{font-size:90px;color:rgba(212,167,106,0.12);font-family:Georgia,serif;line-height:0.3;text-align:left;margin-bottom:10px;user-select:none}
+.quote-mark.end{text-align:right;margin-top:30px}
+.message-text{font-size:22px;line-height:2.4;color:#f5ede8;letter-spacing:4px;margin:6px 0;font-family:serif;text-shadow:0 0 30px rgba(212,167,106,0.05)}
+.message-sign{font-size:15px;color:#c4b5a5;letter-spacing:3px;margin-top:40px;text-align:right;font-style:italic}
 @media(max-width:768px){
-  .message-section{padding:60px 16px}
-  .message-card{padding:40px 20px}
-  .message-text{font-size:17px;letter-spacing:2px}
-  .quote-mark{font-size:50px}
-}
-.ending{
+  .message-section{padding:60px 16px;min-height:50vh}
+  .message-card{padding:40px 24px;border-radius:16px}
+  .message-text{font-size:18px;line-height:2.2;letter-spacing:2px}
+  .quote-mark{font-size:55px}
+  .message-sign{font-size:13px}
+}.ending{
   padding:100px 30px 140px;
   background:#0d0b0f;
   text-align:center;
@@ -607,7 +607,8 @@ nav ul li a:hover::after{width:100%}
     <li><a href="#gallery">相册</a></li>
     
     <li><a href="#ending">寄语</a></li>
-    </ul>
+    
+    <li><a href="#message">寄语</a></li></ul>
     <button class="music-btn-inline" id="musicToggle">♫</button>
 </nav>
 <section class="hero" id="hero">
