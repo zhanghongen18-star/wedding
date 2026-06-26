@@ -293,7 +293,7 @@ nav ul li a:hover::after{width:100%}
 }
 .gallery-section{padding:100px 30px;background:#0d0b0f}
 .gallery-grid{display:flex;flex-wrap:wrap;gap:12px;max-width:1300px;margin:0 auto;justify-content:center}
-.gallery-item{flex:1 1 240px;max-width:360px;min-width:160px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
+.gallery-item{flex:1 1 240px;max-width:360px;min-width:160px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:1;transform:translateY(0);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
 .gallery-item.visible{opacity:1;transform:translateY(0)}
 .gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
 .gallery-item img{width:100%;height:auto;max-height:350px;object-fit:contain;display:block;background:#1a1518;transition:transform 0.8s ease}
@@ -478,8 +478,8 @@ nav ul li a:hover::after{width:100%}
   nav ul.open{right:0}
   nav ul li a{font-size:16px;letter-spacing:4px}
   .gallery-grid{
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    grid-auto-rows:140px;
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:center
+  }
     gap:10px;
   }
   .game-container{
@@ -497,7 +497,7 @@ nav ul li a:hover::after{width:100%}
   .section-title{margin-bottom:30px}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
-@media(max-width:480px){.gallery-item img{height:auto;max-height:280px}.gallery-item{flex:1 1 140px;min-width:130px;max-width:100%}
+@media(max-width:480px){.gallery-item img{height:auto;max-height:280px}.gallery-item{flex:1 1 140px;min-width:130px;max-width:100%;opacity:1;transform:translateY(0)}
   .gallery-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
   
   .game-container{max-width:320px;gap:6px}
@@ -754,16 +754,11 @@ function buildGallery(){
   IMAGES.forEach((src,i)=>{
     const item=document.createElement('div');
     item.className='gallery-item';
-    
-    
     item.style.transitionDelay=(i*0.08)+'s';
     item.innerHTML='<img src="'+THUMB_PATH+src+'" alt="婚纱照 '+(i+1)+'" loading="lazy"><div class="overlay-hover"></div>';
     item.addEventListener('click',()=>openLightbox(i));
+    item.classList.add('visible');
     grid.appendChild(item);
-    const obs=new IntersectionObserver(([e])=>{
-      if(e.isIntersecting){item.classList.add('visible');obs.disconnect()}
-    },{threshold:0.1});
-    obs.observe(item);
   });
 }
 buildGallery();
@@ -778,15 +773,7 @@ document.getElementById('lbPrev').addEventListener('click',()=>lbNav(-1));
 document.getElementById('lbNext').addEventListener('click',()=>lbNav(1));
 lb.addEventListener('click',(e)=>{if(e.target===lb)closeLightbox()});
 lb.addEventListener('touchend',function(e){if(e.target===lb)closeLightbox()});
-document.getElementById('lbClose').addEventListener('touchend',function(e){e.preventDefault();closeLightbox()});
-document.getElementById('lbPrev').addEventListener('touchend',function(e){e.preventDefault();lbNav(-1)});
-document.getElementById('lbNext').addEventListener('touchend',function(e){e.preventDefault();lbNav(1)});
 document.addEventListener('keydown',(e)=>{
-  if(!lb.classList.contains('active'))return;
-  if(e.key==='Escape')closeLightbox();
-  if(e.key==='ArrowLeft')lbNav(-1);
-  if(e.key==='ArrowRight')lbNav(1);
-});
 const GAME_SYMBOLS=['♡','♥','✿','🌸','⭐','🌙'];
 let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
@@ -909,8 +896,6 @@ console.log('💕 祝福新人：永结同心，百年好合！');
 </script>
 </body>
 </html>
-
-
 
 
 
