@@ -784,44 +784,69 @@ const navMenu=document.getElementById('navMenu');
 window.addEventListener('scroll',()=>{ nav.classList.toggle('scrolled',window.scrollY>60); });
 navToggle.addEventListener('click',()=>{ navMenu.classList.toggle('open'); });
 navMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click',()=>navMenu.classList.remove('open')); });
-function buildGallery(){
-  const grid=document.getElementById('galleryGrid');
-  IMAGES.forEach((src,i)=>{
-    const item=document.createElement('div');
-    item.className='gallery-item';
-    item.dataset.idx=i;
-    var img=document.createElement('img');
-    img.src=THUMB_PATH+src;
-    img.alt='婚纱照 '+(i+1);
-    img.loading='lazy';
-    item.appendChild(img);
-    var oh=document.createElement('div');
-    oh.className='overlay-hover';
-    item.appendChild(oh);
-    item.addEventListener('click',()=>openLightbox(i));
-    item.classList.add('visible');
-    grid.appendChild(item);
-  });
-}
-buildGallery();
-
-const lb=document.getElementById('lightbox');
-const lbImg=document.getElementById('lbImg');
-var lbIndex=0;
-function openLightbox(i){ lbIndex=i; lbImg.classList.add('loading'); lbImg.src=WEB_PATH+IMAGES[i]; lb.classList.add('active'); document.body.style.overflow='hidden'; }
-function lbNav(d){ lbIndex=(lbIndex+d+IMAGES.length)%IMAGES.length; lbImg.src=WEB_PATH+IMAGES[lbIndex]; }
-document.getElementById('lbClose').addEventListener('click',closeLightbox);
-document.getElementById('lbPrev').addEventListener('click',()=>lbNav(-1));
-document.getElementById('lbNext').addEventListener('click',()=>lbNav(1));
-lbImg.onload=function(){lbImg.classList.remove('loading')};
-
-lb.addEventListener('touchend',function(e){if(e.target===lb)closeLightbox()});
-document.addEventListener('keydown',(e)=>{
-  if(e.key==="Escape")closeLightbox();
-  if(e.key==="ArrowLeft")lbNav(-1);
-  if(e.key==="ArrowRight")lbNav(1);
-});
-let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
+function buildGallery(){
+  const grid=document.getElementById('galleryGrid');
+  IMAGES.forEach((src,i)=>{
+    const item=document.createElement('div');
+    item.className='gallery-item';
+    item.dataset.idx=i;
+    var img=document.createElement('img');
+    img.src=THUMB_PATH+src;
+    img.alt='婚纱照 '+(i+1);
+    img.loading='lazy';
+    item.appendChild(img);
+    var oh=document.createElement('div');
+    oh.className='overlay-hover';
+    item.appendChild(oh);
+    (function(idx){
+      item.addEventListener('click',function(){openLightbox(idx);});
+    })(i);
+    item.classList.add('visible');
+    grid.appendChild(item);
+  });
+}
+buildGallery();
+
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+var lbIndex=0;
+function openLightbox(i){
+  lbIndex=i;
+  lbImg.classList.add('loading');
+  lbImg.src='';
+  setTimeout(function(){
+    lbImg.src=WEB_PATH+IMAGES[lbIndex];
+    lb.classList.add('active');
+    document.body.style.overflow='hidden';
+  },50);
+}
+function closeLightbox(){
+  lb.classList.remove('active');
+  document.body.style.overflow='';
+  lbImg.src='';
+  lbIndex=0;
+}
+function lbNav(d){
+  lbIndex=(lbIndex+d+IMAGES.length)%IMAGES.length;
+  lbImg.classList.add('loading');
+  lbImg.src='';
+  setTimeout(function(){
+    lbImg.src=WEB_PATH+IMAGES[lbIndex];
+  },50);
+}
+document.getElementById('lbClose').addEventListener('click',closeLightbox);
+document.getElementById('lbPrev').addEventListener('click',function(){lbNav(-1);});
+document.getElementById('lbNext').addEventListener('click',function(){lbNav(1);});
+lbImg.onload=function(){lbImg.classList.remove('loading');};
+lbImg.onerror=function(){lbImg.classList.remove('loading');};
+
+lb.addEventListener('click',function(e){if(e.target===lb)closeLightbox();});
+lb.addEventListener('touchend',function(e){if(e.target===lb)closeLightbox();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeLightbox();
+  if(e.key==='ArrowLeft')lbNav(-1);
+  if(e.key==='ArrowRight')lbNav(1);
+});let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 // ===== Matching Game =====
 
