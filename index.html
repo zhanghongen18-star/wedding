@@ -319,23 +319,37 @@ nav ul li a:hover::after{width:100%}
   grid-template-columns:repeat(4,1fr);
   gap:12px;
   perspective:1000px;
-}
-.puzzle-section{padding:100px 30px 60px;background:linear-gradient(180deg,#0d0b0f,#1a1518);text-align:center}
-.puzzle-wrapper{max-width:500px;margin:40px auto 0}
-.puzzle-container{display:flex;gap:20px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
-.puzzle-board{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:80vw;max-width:360px;background:#1a1518;border-radius:8px;padding:4px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-.puzzle-tile{position:relative;border-radius:4px;cursor:pointer;overflow:hidden;transition:transform 0.15s ease;background-size:cover;background-position:center;width:calc(33.333% - 3px);aspect-ratio:1}
-.puzzle-tile:hover{transform:scale(1.04);z-index:2}
-.puzzle-tile.empty{background:rgba(212,167,106,0.08)!important;border:1px dashed rgba(212,167,106,0.2);cursor:default}
-.puzzle-tile.empty:hover{transform:none}
+.puzzle-section{padding:80px 20px 40px;background:linear-gradient(180deg,#0d0b0f,#1a1518);text-align:center}
+.puzzle-wrapper{max-width:500px;margin:30px auto 0}
+.puzzle-container{display:flex;gap:16px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.puzzle-board-table{display:table;border-collapse:separate;border-spacing:3px;width:280px;height:280px;margin:0 auto;background:#1a1518;border-radius:8px;padding:4px;table-layout:fixed}
+.puzzle-board-table td{width:33.33%;height:33.33%;border-radius:4px;cursor:pointer;background-size:300% 300%;background-position:center;position:relative}
+.puzzle-board-table td.empty{background:rgba(212,167,106,0.08) !important;border:1px dashed rgba(212,167,106,0.2);cursor:default}
 .puzzle-preview{width:80px;height:80px;border-radius:6px;overflow:hidden;border:1px solid rgba(212,167,106,0.15);flex-shrink:0;background-size:cover;background-position:center;opacity:0.7}
 .puzzle-controls{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:16px}
 .puzzle-moves{color:#b8a99a;font-size:14px;letter-spacing:2px}
-.puzzle-moves span{color:var(--gold)}
-.puzzle-win{color:var(--gold);font-size:14px;letter-spacing:4px;margin-top:20px;opacity:0;transition:opacity 0.5s}
+.puzzle-moves span{color:#d4a76a}
+.puzzle-btn{display:inline-block;padding:10px 30px;border:1px solid rgba(212,167,106,0.2);background:transparent;color:#d4a76a;font-size:13px;letter-spacing:3px;cursor:pointer;transition:all .4s ease;border-radius:30px}
+.puzzle-btn:hover{background:rgba(212,167,106,0.1)}
+.puzzle-win{color:#d4a76a;font-size:14px;letter-spacing:4px;margin-top:20px;opacity:0;transition:opacity 0.5s}
 .puzzle-win.show{opacity:1}
-@media(max-width:600px){.puzzle-board{width:85vw.puzzle-section{padding:60px 16px 40px}}
-@media(max-width:400px){.puzzle-board{width:90vw;height:90vw;gap:2px;padding:3px}.puzzle-preview{display:none}}
+.game-section{padding:40px 20px 80px;background:linear-gradient(180deg,#0d0b0f,#1a1518);text-align:center}
+.game-board-table{display:table;border-collapse:separate;border-spacing:8px;width:320px;margin:30px auto 0;table-layout:fixed}
+.game-board-table td{width:25%;height:70px;border-radius:8px;cursor:pointer;text-align:center;vertical-align:middle;font-size:28px;background:linear-gradient(135deg,#5c1a2b,#8b4555);border:1px solid rgba(212,167,106,0.2);color:#d4a76a;-webkit-perspective:600px;perspective:600px;position:relative;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:-webkit-transform 0.4s;transition:transform 0.4s}
+.game-board-table td.flipped{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}
+.game-board-table td.matched{background:rgba(212,167,106,0.15);box-shadow:0 0 15px rgba(212,167,106,0.2)}
+.game-board-table td .front{display:none}
+.game-board-table td.flipped .front{display:block}
+.game-board-table td.flipped .back{display:none}
+.game-board-table td .back{display:block;font-size:28px}
+.game-board-table td .front{font-size:28px;color:#e8b4b4}
+.game-stats{display:flex;justify-content:center;gap:30px;margin-top:20px;color:#b8a99a;font-size:14px;letter-spacing:2px}
+.game-stats span{color:#d4a76a}
+.game-msg{color:#d4a76a;font-size:14px;letter-spacing:4px;margin-top:20px;opacity:0;transition:opacity 0.5s}
+.game-msg.show{opacity:1}
+.game-btn{display:inline-block;padding:10px 30px;border:1px solid rgba(212,167,106,0.2);background:transparent;color:#d4a76a;font-size:13px;letter-spacing:3px;cursor:pointer;transition:all .4s ease;border-radius:30px;margin-top:16px}
+@media(max-width:480px){.puzzle-board-table{width:240px;height:240px}.game-board-table{width:280px}.game-board-table td{height:60px;font-size:22px}.game-board-table td .back{font-size:22px}.game-board-table td .front{font-size:22px}}
+
 .game-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;gap:10px;width:90%;max-width:400px;margin:30px auto 0;-webkit-perspective:1000px;perspective:1000px}.game-card{-webkit-box-flex:1;-ms-flex:1 1 calc(25% - 10px);flex:1 1 calc(25% - 10px);min-width:70px;max-width:100px;min-height:70px}
 .game-card{cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);will-change:transform;border-radius:8px;min-height:70px}
 .game-card.flipped{transform:rotateY(180deg)}
@@ -651,35 +665,35 @@ nav ul li a:hover::after{width:100%}
   <div class="section-title reveal">
     <div class="ornament">✧ ✧ ✧</div>
     <h2>拼图挑战</h2>
-    <p>Jigsaw Puzzle — 滑动拼出爱的画面</p>
+    <p>滑动拼出爱的画面</p>
   </div>
   <div class="puzzle-wrapper">
     <div class="puzzle-container">
-      <div class="puzzle-board" id="puzzleBoard"></div>
+      <table class="puzzle-board-table" id="puzzleBoardTable"><tbody id="puzzleBody"></tbody></table>
       <div class="puzzle-preview" id="puzzlePreview"></div>
     </div>
     <div class="puzzle-controls">
-      <span class="puzzle-moves">步数: <span id="puzzleMoves">0</span></span>
-      <button class="puzzle-btn" id="shufflePuzzle">⟳ 打乱</button>
+      <span class="puzzle-moves">步数: <span id="puzzleMoves2">0</span></span>
+      <button class="puzzle-btn" id="shufflePuzzle2">⟳ 打乱</button>
     </div>
-    <div class="puzzle-win" id="puzzleWinMsg">✦ 恭喜完成拼图 ✦</div>
+    <div class="puzzle-win" id="puzzleWinMsg2">✦ 恭喜完成拼图 ✦</div>
   </div>
 </section>
 
-<section class="game-section" id="game">
-  <div class="section-title reveal">
-    <div class="ornament">✧ ✧ ✧</div>
-    <h2>爱的默契</h2>
-    <p>Love Memory Game — 翻开相同的心意</p>
-  </div>
-  <div class="game-container" id="gameBoard"></div>
-  <div class="game-stats">
-    <div>步数 <span id="moves">0</span></div>
-    <div>配对 <span id="pairs">0</span> / 6</div>
-  </div>
-  <button class="game-btn" id="resetGame">⟳ 重新开始</button>
-  <div class="game-msg" id="gameMsg">🎉 太棒了！你们真是天生一对！</div>
-</section>
+<section class="game-section" id="game">
+  <div class="section-title reveal">
+    <div class="ornament">✧ ✧ ✧</div>
+    <h2>爱的默契</h2>
+    <p>翻开相同的心意</p>
+  </div>
+  <table class="game-board-table" id="gameBoardTable"><tbody id="gameBody"></tbody></table>
+  <div class="game-stats">
+    <div>步数 <span id="moves2">0</span></div>
+    <div>配对 <span id="pairs2">0</span> / 6</div>
+  </div>
+  <div class="game-msg" id="gameMsg2">✦ 太棒了！你们真是天生一对！ ✦</div>
+  <button class="game-btn" id="resetGame2">⟳ 重新开始</button>
+</section>
 <section class="ending" id="ending">
   <div class="ending-content reveal">
     <h2>以此纪念</h2>
@@ -834,144 +848,133 @@ document.addEventListener('keydown',(e)=>{
 });
 let gameCards=[],gameFlipped=[],gameLocked=false,gameMoves=0,gamePairs=0;
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-const GAME_SYMBOLS=["♡","♥","✿","🌸","⭐","🌙"];
+// ===== Matching Game =====
 
 // ===== Puzzle Game =====
-console.log('Puzzle: init');
-var PUZZLE_IMG="https://raw.githubusercontent.com/zhanghongen18-star/wedding/main/thumbs/9efb2f250b92901b53fa339b5f97a39b.jpg";
-var pt=[],pm=0;
+var PZ_IMG='https://raw.githubusercontent.com/zhanghongen18-star/wedding/main/thumbs/9efb2f250b92901b53fa339b5f97a39b.jpg';
+var pz=[],pzMoves=0;
 function initPuzzle(){
-  console.log('Puzzle: initPuzzle called');
-  var b=document.getElementById('puzzleBoard');
-  console.log('Puzzle: board=',b);
+  var b=document.getElementById('puzzleBody');
   if(!b)return;
-  b.innerHTML='';b.style.display='-webkit-box';b.style.display='-ms-flexbox';b.style.display='flex';b.style.flexWrap='wrap';
-  pm=0;
-  var el=document.getElementById('puzzleMoves');
+  b.innerHTML='';
+  pzMoves=0;
+  var el=document.getElementById('puzzleMoves2');
   if(el)el.textContent='0';
-  var msg=document.getElementById('puzzleWinMsg');
+  var msg=document.getElementById('puzzleWinMsg2');
   if(msg)msg.classList.remove('show');
-  pt=[];
-  for(var i=0;i<9;i++)pt.push(i);
+  pz=[];
+  for(var i=0;i<9;i++)pz.push(i);
   do {
-    for(var i=pt.length-1;i>0;i--){
+    for(var i=pz.length-1;i>0;i--){
       var j=Math.floor(Math.random()*(i+1));
-      var t=pt[i];pt[i]=pt[j];pt[j]=t;
+      var t=pz[i];pz[i]=pz[j];pz[j]=t;
     }
-  } while(pt[8]===8);
+  } while(pz[8]===8);
   renderPuzzle();
 }
 function renderPuzzle(){
-  var b=document.getElementById('puzzleBoard');
+  var b=document.getElementById('puzzleBody');
   if(!b)return;
   b.innerHTML='';
   for(var i=0;i<9;i++){
-    var tile=document.createElement('div');
-    var val=pt[i];
+    var tr=document.createElement('tr');
+    var td=document.createElement('td');
+    var val=pz[i];
     if(val===8){
-      tile.className='puzzle-tile empty';
+      td.className='empty';
     } else {
-      tile.className='puzzle-tile';
       var row=Math.floor(val/3);
       var col=val%3;
-      tile.style.backgroundImage="url("+PUZZLE_IMG+")";
-      tile.style.backgroundSize="300% 300%";
-      tile.style.backgroundRepeat="no-repeat";
-      tile.style.backgroundPosition=(-col*100)+'% '+(-row*100)+'%';
-      tile.onclick=function(idx){return function(){clickPuzzle(idx);}}(i);
+      td.style.backgroundImage='url('+PZ_IMG+')';
+      td.style.backgroundSize='300% 300%';
+      td.style.backgroundPosition=(-col*100)+'% '+(-row*100)+'%';
+      td.onclick=(function(idx){return function(){clickPz(idx);}})(i);
     }
-    b.appendChild(tile);
+    tr.appendChild(td);
+    b.appendChild(tr);
   }
   var pv=document.getElementById('puzzlePreview');
-  if(pv)pv.style.backgroundImage="url("+PUZZLE_IMG+")";
-  if(pv)pv.style.backgroundSize="cover";
-  if(pv)pv.style.backgroundRepeat="no-repeat";
+  if(pv)pv.style.backgroundImage='url('+PZ_IMG+')';
 }
-function clickPuzzle(idx){
-  if(pt[idx]===8)return;
-  var e=pt.indexOf(8);
+function clickPz(idx){
+  if(pz[idx]===8)return;
+  var e=pz.indexOf(8);
   var r1=Math.floor(idx/3),c1=idx%3,r2=Math.floor(e/3),c2=e%3;
   if(Math.abs(r1-r2)+Math.abs(c1-c2)!==1)return;
-  var t=pt[idx];pt[idx]=pt[e];pt[e]=t;
-  pm++;
-  var el=document.getElementById('puzzleMoves');
-  if(el)el.textContent=pm;
+  var t=pz[idx];pz[idx]=pz[e];pz[e]=t;
+  pzMoves++;
+  var el=document.getElementById('puzzleMoves2');
+  if(el)el.textContent=pzMoves;
   renderPuzzle();
   var won=true;
-  for(var i=0;i<9;i++){if(pt[i]!==i){won=false;break;}}
+  for(var i=0;i<9;i++){if(pz[i]!==i){won=false;break;}}
   if(won){
-    var msg=document.getElementById('puzzleWinMsg');
+    var msg=document.getElementById('puzzleWinMsg2');
     if(msg)msg.classList.add('show');
   }
 }
-var sb=document.getElementById('shufflePuzzle');
+var sb=document.getElementById('shufflePuzzle2');
 if(sb)sb.addEventListener('click',function(){initPuzzle();});
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initPuzzle);}else{initPuzzle();}
+var GAME_SYMS=['♡','♥','✿','🌸','⭐','🌙'];
+var gc=[],gf=[],gl=false,gm=0,gp=0;
+function shuffleArr(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function initGame(){
+  var b=document.getElementById('gameBody');
+  if(!b)return;
+  b.innerHTML='';
+  gm=0;gp=0;gl=false;gf=[];
+  var el=document.getElementById('moves2');
+  if(el)el.textContent='0';
+  el=document.getElementById('pairs2');
+  if(el)el.textContent='0';
+  var msg=document.getElementById('gameMsg2');
+  if(msg)msg.classList.remove('show');
+  var syms=shuffleArr([].concat(GAME_SYMS,GAME_SYMS));
+  gc=shuffleArr(syms.map(function(s,i){return{sym:s,id:i,matched:false};}));
+  gc.forEach(function(card,idx){
+    var tr=document.createElement('tr');
+    var td=document.createElement('td');
+    td.innerHTML='<div class="back">♡</div><div class="front">'+card.sym+'</div>';
+    td.onclick=(function(i){return function(){flipCard(i);}})(idx);
+    tr.appendChild(td);
+    b.appendChild(tr);
+  });
+}
+function flipCard(idx){
+  if(gl)return;
+  var tds=document.querySelectorAll('#gameBody td');
+  var td=tds[idx];
+  if(!td||td.classList.contains('flipped')||td.classList.contains('matched'))return;
+  td.classList.add('flipped');
+  gf.push(idx);
+  if(gf.length===2){
+    gm++;
+    var el=document.getElementById('moves2');
+    if(el)el.textContent=gm;
+    gl=true;
+    var a=gf[0],b=gf[1];
+    if(gc[a].sym===gc[b].sym){
+      gc[a].matched=gc[b].matched=true;
+      tds[a].classList.add('matched');
+      tds[b].classList.add('matched');
+      gp++;
+      var pel=document.getElementById('pairs2');
+      if(pel)pel.textContent=gp;
+      gf=[];gl=false;
+      if(gp===6){
+        var msg=document.getElementById('gameMsg2');
+        if(msg)msg.classList.add('show');
+      }
+    } else {
+      setTimeout(function(){tds[a].classList.remove('flipped');tds[b].classList.remove('flipped');gf=[];gl=false;},600);
+    }
+  }
+}
+var rb=document.getElementById('resetGame2');
+if(rb)rb.addEventListener('click',function(){initGame();});
 
-function initGame(){
-  const board=document.getElementById('gameBoard');
-  board.innerHTML='';
-  gameMoves=0;gamePairs=0;gameLocked=false;gameFlipped=[];
-  document.getElementById('moves').textContent='0';
-  document.getElementById('pairs').textContent='0';
-  document.getElementById('gameMsg').classList.remove('show');
-  const symbols=shuffle([...GAME_SYMBOLS,...GAME_SYMBOLS]);
-  gameCards=shuffle(symbols.map((sym,i)=>({sym,id:i,matched:false})));
-  gameCards.forEach((card,idx)=>{
-    const el=document.createElement('div');
-    el.className='game-card';
-    el.dataset.idx=idx;
-    el.innerHTML='<div class="game-card-back">♡</div><div class="game-card-front">'+card.sym+'</div>';
-    el.addEventListener('click',()=>flipCard(idx));
-    board.appendChild(el);
-  });
-}
-function flipCard(idx){
-  if(gameLocked)return;
-  const els=document.querySelectorAll('.game-card');
-  const el=els[idx];
-  if(el.classList.contains('flipped')||el.classList.contains('matched'))return;
-  el.classList.add('flipped');
-  gameFlipped.push(idx);
-  if(gameFlipped.length===2){
-    gameMoves++;
-    document.getElementById('moves').textContent=gameMoves;
-    gameLocked=true;
-    const [a,b]=gameFlipped;
-    const cardA=gameCards[a],cardB=gameCards[b];
-    if(cardA.sym===cardB.sym){
-      cardA.matched=cardB.matched=true;
-      els[a].classList.add('matched');
-      els[b].classList.add('matched');
-      gamePairs++;
-      document.getElementById('pairs').textContent=gamePairs;
-      gameFlipped=[]; gameLocked=false;
-      if(gamePairs===6){
-        document.getElementById('gameMsg').classList.add('show');
-        for(let i=0;i<12;i++) setTimeout(()=>createCelebration(),i*200);
-      }
-    }else{
-      setTimeout(function(){
-        els[a].classList.remove('flipped');
-        els[b].classList.remove('flipped');
-        gameFlipped=[]; gameLocked=false;
-      },800);
-    }
-  }
-}
-function createCelebration(){
-  const sp=document.createElement('div');
-  sp.className='sparkle';
-  sp.textContent=['♡','♥','✿','🌸','✨','🎉'][Math.floor(Math.random()*6)];
-  sp.style.left=Math.random()*100+'%';
-  sp.style.top=Math.random()*100+'%';
-  sp.style.fontSize=(14+Math.random()*20)+'px';
-  sp.style.color=['var(--gold)','var(--rose)','var(--blush)','var(--gold-light)'][Math.floor(Math.random()*4)];
-  document.body.appendChild(sp);
-  setTimeout(()=>sp.remove(),1000);
-}
-document.getElementById('resetGame').addEventListener('click',initGame);
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){initGame();});}else{initGame();}
+
 const revealEls=document.querySelectorAll('.reveal');
 const revealObs=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)} });
