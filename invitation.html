@@ -172,7 +172,47 @@ body{
   .card-content{padding:24px 18px 24px}
   .qr-mini{flex-direction:column;text-align:center}
 }
-/* Music toggle */
+
+/* Entrance button */
+.entrance-btn{
+  width:100%;margin-top:24px;text-align:center;
+  animation:fadeUp 0.8s ease 2s both;
+}
+.entrance-btn a{
+  display:inline-flex;flex-direction:column;align-items:center;
+  padding:16px 40px;border-radius:50px;
+  background:linear-gradient(135deg,rgba(212,167,106,0.12),rgba(212,167,106,0.05));
+  border:1px solid rgba(212,167,106,0.2);
+  text-decoration:none;position:relative;overflow:hidden;
+  transition:all 0.4s ease;
+}
+.entrance-btn a:hover{
+  background:linear-gradient(135deg,rgba(212,167,106,0.2),rgba(212,167,106,0.08));
+  border-color:rgba(212,167,106,0.35);
+  transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(212,167,106,0.1);
+}
+.entrance-btn .btn-ring{
+  position:absolute;inset:-2px;border-radius:50px;
+  border:1px solid rgba(212,167,106,0.08);
+  animation:pulseRing 2s ease-in-out infinite;
+}
+.entrance-btn .btn-text{
+  font-size:15px;color:var(--cream);letter-spacing:4px;
+  font-weight:400;position:relative;z-index:1;
+}
+.entrance-btn .btn-sub{
+  font-size:11px;color:var(--gold);opacity:0.5;
+  letter-spacing:2px;margin-top:4px;position:relative;z-index:1;
+}
+@keyframes pulseRing{
+  0%,100%{opacity:0.3;transform:scale(1)}
+  50%{opacity:0.6;transform:scale(1.03)}
+}
+@media(max-width:480px){
+  .entrance-btn a{padding:14px 28px}
+  .entrance-btn .btn-text{font-size:13px;letter-spacing:3px}
+}/* Music toggle */
 .music-btn{
   position:fixed;top:20px;right:20px;z-index:10000;
   width:44px;height:44px;border-radius:50%;
@@ -254,6 +294,12 @@ body{
 
     <div class="card-footer">
       <p>— ♥ 感谢您的祝福 ♥ —</p>
+    </div>    <div class="entrance-btn">
+      <a href="https://zhanghongen18-star.github.io/wedding/" target="_blank">
+        <span class="btn-ring"></span>
+        <span class="btn-text">进入纪念网站 ⟡</span>
+        <span class="btn-sub">浏览更多婚纱照片</span>
+      </a>
     </div>
   </div>
 </div>
