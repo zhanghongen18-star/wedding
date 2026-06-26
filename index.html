@@ -30,6 +30,7 @@ body{
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:#0d0b0f}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
+img{max-width:100%;height:auto;display:block}
 .petals-container{
   position:fixed;top:0;left:0;width:100%;height:100%;
   pointer-events:none;z-index:9999;overflow:hidden;
@@ -292,10 +293,10 @@ nav ul li a:hover::after{width:100%}
 }
 .gallery-section{padding:100px 30px;background:#0d0b0f}
 .gallery-grid{display:flex;flex-wrap:wrap;gap:12px;max-width:1300px;margin:0 auto;justify-content:center}
-.gallery-item{flex:1 1 240px;max-width:360px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
+.gallery-item{flex:1 1 240px;max-width:360px;min-width:160px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease,box-shadow 0.4s}
 .gallery-item.visible{opacity:1;transform:translateY(0)}
 .gallery-item:hover{box-shadow:0 12px 40px rgba(212,167,106,0.15)}
-.gallery-item img{width:100%;height:250px;object-fit:contain;display:block;background:#1a1518;transition:transform 0.8s ease}
+.gallery-item img{width:100%;height:auto;max-height:350px;object-fit:contain;display:block;background:#1a1518;transition:transform 0.8s ease}
 .gallery-item:hover img{transform:scale(1.03)}
 .gallery-item .overlay-hover{position:absolute;inset:0;background:rgba(212,167,106,0.06);opacity:0;transition:opacity 0.4s;pointer-events:none}
 .gallery-item:hover .overlay-hover{opacity:1}
@@ -496,7 +497,7 @@ nav ul li a:hover::after{width:100%}
   .section-title{margin-bottom:30px}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
-@media(max-width:480px){.gallery-item img{height:200px}.gallery-item{flex:1 1 180px}
+@media(max-width:480px){.gallery-item img{height:auto;max-height:280px}.gallery-item{flex:1 1 140px;min-width:130px;max-width:100%}
   .gallery-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
   
   .game-container{max-width:320px;gap:6px}
