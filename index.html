@@ -295,15 +295,15 @@ nav ul li a:hover::after{width:100%}
   font-family:Georgia,serif;
 }
 .gallery-section{padding:80px 20px;background:#0d0b0f}
-.gallery-grid{display:flex;flex-wrap:wrap;gap:10px;max-width:1400px;margin:0 auto;justify-content:center}
-.gallery-item{flex:1 1 auto;width:auto;max-width:100%;position:relative;border-radius:4px;overflow:hidden;cursor:pointer;opacity:1;transform:translateY(0);transition:opacity 0.4s ease,transform 0.4s ease,box-shadow 0.3s;background:transparent;display:inline-flex;align-items:flex-start;justify-content:center}
-.gallery-item.visible{opacity:1;transform:translateY(0)}
-.gallery-item:hover{box-shadow:0 8px 30px rgba(212,167,106,0.15);transform:translateY(-2px)}
-.gallery-item img{height:280px;width:auto;max-width:100%;display:block;object-fit:contain;background:transparent;border-radius:4px;transition:transform 0.5s ease}
+.gallery-grid{column-count:4;column-gap:12px;max-width:1400px;margin:0 auto;padding:0}
+.gallery-item{display:inline-block;width:100%;margin-bottom:12px;border-radius:6px;overflow:hidden;cursor:pointer;opacity:1;transition:opacity 0.4s ease,box-shadow 0.3s;break-inside:avoid}
+.gallery-item.visible{opacity:1}
+.gallery-item:hover{box-shadow:0 8px 30px rgba(212,167,106,0.2)}
+.gallery-item img{width:100%;height:auto;display:block;border-radius:6px;transition:transform 0.5s ease;background:transparent}
 .gallery-item:hover img{transform:scale(1.02)}
-@media(max-width:768px){.gallery-item img{height:200px}.gallery-section{padding:60px 12px}.gallery-grid{gap:6px}}
-@media(max-width:480px){.gallery-item img{height:150px}.gallery-grid{gap:4px}}
-
+@media(max-width:900px){.gallery-grid{column-count:3}}
+@media(max-width:600px){.gallery-grid{column-count:2;column-gap:8px}.gallery-item{margin-bottom:8px}}
+@media(max-width:400px){.gallery-grid{column-count:2;column-gap:6px}.gallery-item{margin-bottom:6px}}
 
 
 
@@ -504,8 +504,8 @@ nav ul li a:hover::after{width:100%}
   .section-title{margin-bottom:30px}
   .section-title h2{font-size:clamp(22px,6vw,32px)}
 }
-@media(max-width:480px){.gallery-item img{height:150px}.gallery-grid{gap:4px}
-@media(max-width:480px){.gallery-item img{height:150px}.gallery-grid{gap:4px;display:flex;flex-wrap:wrap;justify-content:center}.gallery-item{border-radius:3px}
+@media(max-width:480px){}
+@media(max-width:480px){}
 
 
   .game-card-front,.game-card-back{font-size:18px}
