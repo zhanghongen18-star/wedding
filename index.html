@@ -769,8 +769,8 @@ navMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click',()=>navMen
 function buildGallery(){
   const grid=document.getElementById('galleryGrid');
   IMAGES.forEach((src,i)=>{
+    const item=document.createElement('div');
     item.className='gallery-item';
-    item.style.transitionDelay=(i*0.06)+'s';
     item.dataset.idx=i;
     var img=document.createElement('img');
     img.src=THUMB_PATH+src;
