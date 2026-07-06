@@ -495,6 +495,28 @@ nav ul li a:hover::after{width:100%}
 .countdown .cd-label{font-size:10px;letter-spacing:2px;color:var(--rose);margin-top:6px;opacity:0.8}
 .countdown .cd-done{font-size:clamp(14px,2vw,18px);color:var(--gold);letter-spacing:4px}
 
+/* ===== 微信内引导浮层 ===== */
+.wx-guide{
+  position:fixed;inset:0;z-index:10050;
+  background:rgba(0,0,0,0.9);
+  display:none;flex-direction:column;
+  padding:18px 22px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.wx-guide.show{display:flex}
+.wx-arrow{
+  align-self:flex-end;
+  font-size:64px;color:var(--gold);line-height:1;
+  margin-right:6px;
+  animation:wxBounce 1.2s ease-in-out infinite;
+}
+@keyframes wxBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.wx-tip{width:100%;text-align:center;margin-top:26vh;color:#fff}
+.wx-tip-main{font-size:21px;line-height:2;letter-spacing:1px}
+.wx-tip-main b{color:var(--gold);font-size:24px}
+.wx-tip-sub{margin-top:18px;color:var(--rose);font-size:14px;letter-spacing:2px}
+.wx-tip-dismiss{margin-top:44px;color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1px}
+
 /* ===== 响应式 ===== */
 @media(max-width:768px){
   .nav-toggle{display:block}
@@ -545,6 +567,14 @@ nav ul li a:hover::after{width:100%}
 <div class="page-loader" id="pageLoader">
   <div class="loader-ring"></div>
   <p>加载中 ...</p>
+</div>
+<div class="wx-guide" id="wxGuide">
+  <div class="wx-arrow">↗</div>
+  <div class="wx-tip">
+    <p class="wx-tip-main">点击右上角 <b>···</b><br>选择「<b>在浏览器打开</b>」</p>
+    <p class="wx-tip-sub">✦ 以正常显示照片与音乐 ✦</p>
+    <p class="wx-tip-dismiss">— 点此继续在微信内浏览 —</p>
+  </div>
 </div>
 <div class="petals-container" id="petals"></div>
 <div class="entry-overlay" id="entryOverlay">
@@ -643,6 +673,14 @@ nav ul li a:hover::after{width:100%}
   <source src="web/bgm_main.mp3" type="audio/mpeg">
 </audio>
 <script>
+// ============ 微信内浏览器引导（微信里图片易裂，引导去系统浏览器）============
+(function(){
+  if(/MicroMessenger/i.test(navigator.userAgent)){
+    var g=document.getElementById('wxGuide');
+    if(g){ g.classList.add('show'); g.addEventListener('click',function(){ g.classList.remove('show'); }); }
+  }
+})();
+
 // ============ 图片列表（本地相对路径，部署到同一仓库即可访问） ============
 const IMAGES = [
   "098d49f9e95e9f05696dcc1ef1c0bd43.jpg","0ba8b481525a3714d203e3af2249353e.jpg",
