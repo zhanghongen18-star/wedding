@@ -920,37 +920,65 @@ window.addEventListener('scroll',()=>{
 })();
 
 // ============ 祝福留言墙 ============
-// 说明：目前留言保存在访客自己浏览器（localStorage），刷新不丢，但不跨设备共享。
-// 若要让所有亲友看到同一面留言墙，需接一个免费后端（推荐 LeanCloud/Valine，国内可用），届时只需替换 load/save 两个函数。
+// 【全体共享设置】填上下面 3 个值 → 所有亲友看到同一面留言墙（从 LeanCloud 后台获取）。
+// 三个都留空 → 「本机演示」模式：留言只存在当前浏览器，不跨设备。
+const LC = {
+  appId:     '',   // LeanCloud AppID
+  appKey:    '',   // LeanCloud AppKey
+  serverURL: ''    // REST API 服务器地址，形如 https://xxxxxxxx.api.lncldglobal.com
+};
 (function(){
   const KEY='wedding_blessings';
+  const USE_LC = !!(LC.appId && LC.appKey && LC.serverURL);
   const form=document.getElementById('blessingForm');
   const listEl=document.getElementById('blessingList');
   if(!form||!listEl)return;
   const nameEl=document.getElementById('bName');
   const msgEl=document.getElementById('bMsg');
+  const btn=form.querySelector('.blessing-btn');
   const SEED=[
     {name:'小弟',msg:'祝老姐新婚快乐，永远幸福！'},
     {name:'亲友团',msg:'百年好合，永结同心～'}
   ];
-  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||SEED.slice(); }catch(e){ return SEED.slice(); } }
-  function save(arr){ try{ localStorage.setItem(KEY,JSON.stringify(arr)); }catch(e){} }
   function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-  function render(){
-    listEl.innerHTML=load().map(b=>
-      '<div class="blessing-card"><div class="b-msg">'+esc(b.msg)+'</div><div class="b-name">—— '+esc(b.name)+'</div></div>'
-    ).join('');
+  function lcHeaders(){ return {'X-LC-Id':LC.appId,'X-LC-Key':LC.appKey,'Content-Type':'application/json'}; }
+  async function load(){
+    if(USE_LC){
+      try{
+        const r=await fetch(LC.serverURL+'/1.1/classes/Blessing?order=-createdAt&limit=100',{headers:lcHeaders()});
+        const d=await r.json();
+        return (d.results||[]).map(x=>({name:x.name||'匿名',msg:x.msg||''}));
+      }catch(e){ return []; }
+    }
+    try{ return JSON.parse(localStorage.getItem(KEY))||SEED.slice(); }catch(e){ return SEED.slice(); }
   }
-  form.addEventListener('submit',function(e){
+  async function save(item){
+    if(USE_LC){
+      await fetch(LC.serverURL+'/1.1/classes/Blessing',{method:'POST',headers:lcHeaders(),body:JSON.stringify(item)});
+      return;
+    }
+    let arr; try{ arr=JSON.parse(localStorage.getItem(KEY))||SEED.slice(); }catch(e){ arr=SEED.slice(); }
+    arr.unshift(item);
+    try{ localStorage.setItem(KEY,JSON.stringify(arr)); }catch(e){}
+  }
+  async function render(){
+    const arr=await load();
+    listEl.innerHTML = arr.length ? arr.map(b=>
+      '<div class="blessing-card"><div class="b-msg">'+esc(b.msg)+'</div><div class="b-name">—— '+esc(b.name)+'</div></div>'
+    ).join('') : '<p style="grid-column:1/-1;text-align:center;color:rgba(245,237,232,0.4)">还没有留言，来写下第一条祝福吧 ♡</p>';
+  }
+  form.addEventListener('submit',async function(e){
     e.preventDefault();
     const msg=msgEl.value.trim();
     if(!msg)return;
     const name=(nameEl.value.trim()||'匿名').slice(0,20);
-    const arr=load();
-    arr.unshift({name:name,msg:msg.slice(0,120)});
-    save(arr);
-    nameEl.value='';msgEl.value='';
-    render();
+    const old=btn.textContent; btn.disabled=true; btn.textContent='发送中…';
+    try{
+      await save({name:name,msg:msg.slice(0,120)});
+      nameEl.value='';msgEl.value='';
+      await render();
+    }catch(err){ alert('发送失败，请稍后再试~'); }
+    finally{ btn.disabled=false; btn.textContent=old; }
   });
   render();
 })();
