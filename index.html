@@ -495,33 +495,6 @@ nav ul li a:hover::after{width:100%}
 .countdown .cd-label{font-size:10px;letter-spacing:2px;color:var(--rose);margin-top:6px;opacity:0.8}
 .countdown .cd-done{font-size:clamp(14px,2vw,18px);color:var(--gold);letter-spacing:4px}
 
-/* ===== 祝福留言墙 ===== */
-.blessing-section{padding:100px 20px;background:linear-gradient(180deg,#120e12,#0d0b0f)}
-.blessing-inner{max-width:760px;margin:0 auto}
-.blessing-form{display:flex;flex-direction:column;gap:12px;max-width:520px;margin:0 auto 44px}
-.blessing-form input,.blessing-form textarea{
-  width:100%;padding:14px 16px;border-radius:10px;
-  background:rgba(212,167,106,0.04);border:1px solid rgba(212,167,106,0.18);
-  color:var(--cream);font-family:var(--serif-cn);font-size:15px;resize:vertical;
-}
-.blessing-form input:focus,.blessing-form textarea:focus{outline:none;border-color:var(--gold)}
-.blessing-form input::placeholder,.blessing-form textarea::placeholder{color:rgba(245,237,232,0.35)}
-.blessing-btn{
-  align-self:center;padding:12px 40px;border-radius:30px;cursor:pointer;
-  background:transparent;border:1px solid var(--gold);color:var(--gold);
-  font-family:var(--serif-cn);font-size:14px;letter-spacing:3px;transition:all .4s ease;
-}
-.blessing-btn:hover{background:var(--gold);color:var(--dark)}
-.blessing-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.blessing-card{
-  padding:18px 20px;border-radius:12px;
-  background:linear-gradient(135deg,rgba(212,167,106,0.07),rgba(212,167,106,0.02));
-  border:1px solid rgba(212,167,106,0.15);
-  animation:fadeUp 0.6s ease both;
-}
-.blessing-card .b-msg{font-size:15px;color:var(--cream);line-height:1.8;opacity:0.9;word-break:break-word}
-.blessing-card .b-name{margin-top:12px;font-size:13px;color:var(--gold);letter-spacing:1px;text-align:right;font-style:italic}
-
 /* ===== 响应式 ===== */
 @media(max-width:768px){
   .nav-toggle{display:block}
@@ -587,7 +560,6 @@ nav ul li a:hover::after{width:100%}
     <li><a href="#story">故事</a></li>
     <li><a href="#gallery">相册</a></li>
     <li><a href="#message">寄语</a></li>
-    <li><a href="#blessing">祝福</a></li>
     <li><a href="#ending">结尾</a></li>
   </ul>
   <button class="music-btn-inline" id="musicToggle">♫</button>
@@ -651,21 +623,6 @@ nav ul li a:hover::after{width:100%}
       <div class="quote-mark end">"</div>
       <div class="message-sign">—— 你亲爱的老弟永远祝福你们</div>
     </div>
-  </div>
-</section>
-<section class="blessing-section" id="blessing">
-  <div class="section-title">
-    <div class="ornament">✧ ✧ ✧</div>
-    <h2>祝福留言墙</h2>
-    <p>Leave Your Blessing</p>
-  </div>
-  <div class="blessing-inner">
-    <form class="blessing-form" id="blessingForm">
-      <input type="text" id="bName" maxlength="20" placeholder="你的名字" autocomplete="off">
-      <textarea id="bMsg" maxlength="120" rows="3" placeholder="写下你的祝福……"></textarea>
-      <button type="submit" class="blessing-btn">送上祝福 ♡</button>
-    </form>
-    <div class="blessing-list" id="blessingList"></div>
   </div>
 </section>
 <section class="ending" id="ending">
@@ -917,70 +874,6 @@ window.addEventListener('scroll',()=>{
   document.addEventListener("click",()=>{
     if(audio.paused){ audio.play().then(()=>btn.classList.remove("paused")).catch(()=>{}); }
   },{once:true});
-})();
-
-// ============ 祝福留言墙 ============
-// 【全体共享设置】填上下面 3 个值 → 所有亲友看到同一面留言墙（从 LeanCloud 后台获取）。
-// 三个都留空 → 「本机演示」模式：留言只存在当前浏览器，不跨设备。
-const LC = {
-  appId:     '',   // LeanCloud AppID
-  appKey:    '',   // LeanCloud AppKey
-  serverURL: ''    // REST API 服务器地址，形如 https://xxxxxxxx.api.lncldglobal.com
-};
-(function(){
-  const KEY='wedding_blessings';
-  const USE_LC = !!(LC.appId && LC.appKey && LC.serverURL);
-  const form=document.getElementById('blessingForm');
-  const listEl=document.getElementById('blessingList');
-  if(!form||!listEl)return;
-  const nameEl=document.getElementById('bName');
-  const msgEl=document.getElementById('bMsg');
-  const btn=form.querySelector('.blessing-btn');
-  const SEED=[
-    {name:'小弟',msg:'祝老姐新婚快乐，永远幸福！'},
-    {name:'亲友团',msg:'百年好合，永结同心～'}
-  ];
-  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-  function lcHeaders(){ return {'X-LC-Id':LC.appId,'X-LC-Key':LC.appKey,'Content-Type':'application/json'}; }
-  async function load(){
-    if(USE_LC){
-      try{
-        const r=await fetch(LC.serverURL+'/1.1/classes/Blessing?order=-createdAt&limit=100',{headers:lcHeaders()});
-        const d=await r.json();
-        return (d.results||[]).map(x=>({name:x.name||'匿名',msg:x.msg||''}));
-      }catch(e){ return []; }
-    }
-    try{ return JSON.parse(localStorage.getItem(KEY))||SEED.slice(); }catch(e){ return SEED.slice(); }
-  }
-  async function save(item){
-    if(USE_LC){
-      await fetch(LC.serverURL+'/1.1/classes/Blessing',{method:'POST',headers:lcHeaders(),body:JSON.stringify(item)});
-      return;
-    }
-    let arr; try{ arr=JSON.parse(localStorage.getItem(KEY))||SEED.slice(); }catch(e){ arr=SEED.slice(); }
-    arr.unshift(item);
-    try{ localStorage.setItem(KEY,JSON.stringify(arr)); }catch(e){}
-  }
-  async function render(){
-    const arr=await load();
-    listEl.innerHTML = arr.length ? arr.map(b=>
-      '<div class="blessing-card"><div class="b-msg">'+esc(b.msg)+'</div><div class="b-name">—— '+esc(b.name)+'</div></div>'
-    ).join('') : '<p style="grid-column:1/-1;text-align:center;color:rgba(245,237,232,0.4)">还没有留言，来写下第一条祝福吧 ♡</p>';
-  }
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    const msg=msgEl.value.trim();
-    if(!msg)return;
-    const name=(nameEl.value.trim()||'匿名').slice(0,20);
-    const old=btn.textContent; btn.disabled=true; btn.textContent='发送中…';
-    try{
-      await save({name:name,msg:msg.slice(0,120)});
-      nameEl.value='';msgEl.value='';
-      await render();
-    }catch(err){ alert('发送失败，请稍后再试~'); }
-    finally{ btn.disabled=false; btn.textContent=old; }
-  });
-  render();
 })();
 
 console.log('💕 祝福新人：永结同心，百年好合！');
