@@ -495,6 +495,34 @@ nav ul li a:hover::after{width:100%}
 .countdown .cd-label{font-size:10px;letter-spacing:2px;color:var(--rose);margin-top:6px;opacity:0.8}
 .countdown .cd-done{font-size:clamp(14px,2vw,18px);color:var(--gold);letter-spacing:4px}
 
+/* ===== 婚纱拼图 ===== */
+.puzzle-section{padding:90px 20px;background:linear-gradient(180deg,#0d0b0f,#151114)}
+.puzzle-inner{max-width:520px;margin:0 auto;text-align:center}
+.puzzle-board{
+  width:min(86vw,360px);margin:0 auto;position:relative;
+  border-radius:8px;overflow:hidden;background:#1a1518;
+  box-shadow:0 12px 44px rgba(0,0,0,.45);
+}
+.pz-tile{
+  position:absolute;top:0;left:0;
+  cursor:pointer;will-change:transform;
+  box-shadow:inset 0 0 0 1px rgba(13,11,15,0.5);
+}
+.pz-tile:active{filter:brightness(1.12)}
+.puzzle-board.solved .pz-tile{box-shadow:none;cursor:default}
+.puzzle-stats{margin-top:24px;display:flex;justify-content:center;gap:40px;color:var(--rose);font-size:14px;letter-spacing:2px}
+.puzzle-stats b{color:var(--gold);font-size:19px}
+.puzzle-controls{margin-top:22px;display:flex;justify-content:center;gap:14px}
+.puzzle-btn{
+  padding:11px 30px;border-radius:30px;cursor:pointer;
+  border:1px solid var(--gold);background:transparent;color:var(--gold);
+  font-family:var(--serif-cn);font-size:14px;letter-spacing:2px;transition:all .3s ease;
+}
+.puzzle-btn:hover{background:var(--gold);color:var(--dark)}
+.puzzle-msg{margin-top:22px;font-size:17px;color:var(--gold-light);letter-spacing:2px;opacity:0;transition:opacity .6s ease;min-height:22px}
+.puzzle-msg.show{opacity:1}
+.puzzle-hint{margin-top:12px;color:rgba(245,237,232,0.35);font-size:12px;letter-spacing:1px}
+
 /* ===== 微信内引导浮层 ===== */
 .wx-guide{
   position:fixed;inset:0;z-index:10050;
@@ -590,6 +618,7 @@ nav ul li a:hover::after{width:100%}
     <li><a href="#story">故事</a></li>
     <li><a href="#gallery">相册</a></li>
     <li><a href="#message">寄语</a></li>
+    <li><a href="#puzzle">拼图</a></li>
     <li><a href="#ending">结尾</a></li>
   </ul>
   <button class="music-btn-inline" id="musicToggle">♫</button>
@@ -653,6 +682,26 @@ nav ul li a:hover::after{width:100%}
       <div class="quote-mark end">"</div>
       <div class="message-sign">—— 你亲爱的老弟永远祝福你们</div>
     </div>
+  </div>
+</section>
+<section class="puzzle-section" id="puzzle">
+  <div class="section-title">
+    <div class="ornament">✧ ✧ ✧</div>
+    <h2>婚纱拼图</h2>
+    <p>九宫格 · 拼出我们的幸福</p>
+  </div>
+  <div class="puzzle-inner">
+    <div class="puzzle-board" id="puzzleBoard"></div>
+    <div class="puzzle-stats">
+      <span>步数 <b id="puzzleMoves">0</b></span>
+      <span>用时 <b id="puzzleTime">0s</b></span>
+    </div>
+    <div class="puzzle-controls">
+      <button class="puzzle-btn" id="puzzleShuffle">打乱开始</button>
+      <button class="puzzle-btn" id="puzzleChange">换一张</button>
+    </div>
+    <p class="puzzle-msg" id="puzzleMsg">🎉 恭喜拼好啦，愿你们幸福美满 ♡</p>
+    <p class="puzzle-hint">点击空格旁的图块滑动 · 复原整张婚纱照</p>
   </div>
 </section>
 <section class="ending" id="ending">
@@ -946,6 +995,104 @@ window.addEventListener('scroll',()=>{
   }
   ["touchend","click"].forEach(function(ev){ document.addEventListener(ev,unlock,{passive:true}); });
   document.addEventListener("WeixinJSBridgeReady",unlock,false);
+})();
+
+// ============ 婚纱拼图（3x3 九宫格滑块）============
+(function(){
+  const board=document.getElementById('puzzleBoard');
+  if(!board)return;
+  const movesEl=document.getElementById('puzzleMoves');
+  const timeEl=document.getElementById('puzzleTime');
+  const msg=document.getElementById('puzzleMsg');
+  const N=3, TOTAL=9;
+  let size=0, tile=0, state=[], emptyPos=8, moves=0, tiles={}, curImg='', started=false, timer=null;
+  let cw=0, ch=0, offX=0, offY=0;
+
+  function pickImg(){ return THUMB_PATH + IMAGES[(Math.random()*IMAGES.length)|0]; }
+  function measure(){ size=board.clientWidth||300; tile=size/N; board.style.height=size+'px'; }
+  function solved(){ const s=[]; for(let i=0;i<8;i++)s[i]=i; s[8]=null; return s; }
+  function xy(p){ return {x:(p%N)*tile, y:(p/N|0)*tile}; }
+  function adj(a,b){ return Math.abs((a/N|0)-(b/N|0))+Math.abs(a%N-b%N)===1; }
+
+  function build(img,onReady){
+    curImg=img; board.classList.remove('solved'); board.innerHTML=''; tiles={};
+    const im=new Image();
+    im.onload=function(){ make(im.naturalWidth,im.naturalHeight); };
+    im.onerror=function(){ make(2,3); };
+    im.src=img;
+    function make(nw,nh){
+      const scale=Math.max(size/nw,size/nh);
+      cw=nw*scale; ch=nh*scale; offX=(size-cw)/2; offY=(size-ch)/2;
+      for(let id=0;id<8;id++){
+        const r=(id/N|0), c=id%N;
+        const t=document.createElement('div');
+        t.className='pz-tile';
+        t.style.width=tile+'px'; t.style.height=tile+'px';
+        t.style.backgroundImage='url("'+img+'")';
+        t.style.backgroundSize=cw+'px '+ch+'px';
+        t.style.backgroundPosition=(offX-c*tile)+'px '+(offY-r*tile)+'px';
+        t.addEventListener('click',function(){ clickTile(id); });
+        board.appendChild(t);
+        tiles[id]=t;
+      }
+      state=solved(); emptyPos=8; render(false); resetStats();
+      if(onReady) onReady();
+    }
+  }
+  function render(anim){
+    for(let p=0;p<TOTAL;p++){
+      const id=state[p]; if(id===null||!tiles[id])continue;
+      const t=tiles[id], q=xy(p);
+      t.style.transition=anim?'transform .18s ease':'none';
+      t.style.transform='translate('+q.x+'px,'+q.y+'px)';
+    }
+  }
+  function clickTile(id){
+    if(board.classList.contains('solved'))return;
+    const p=state.indexOf(id);
+    if(adj(p,emptyPos)){
+      state[emptyPos]=id; state[p]=null; emptyPos=p;
+      moves++; movesEl.textContent=moves;
+      if(!started) startTimer();
+      render(true); checkWin();
+    }
+  }
+  function startTimer(){ started=true; let s=0; timeEl.textContent='0s'; timer=setInterval(function(){ s++; timeEl.textContent=s+'s'; },1000); }
+  function stopTimer(){ if(timer){clearInterval(timer);timer=null;} }
+  function resetStats(){ moves=0; movesEl.textContent='0'; stopTimer(); started=false; timeEl.textContent='0s'; if(msg)msg.classList.remove('show'); }
+  function checkWin(){
+    for(let i=0;i<8;i++){ if(state[i]!==i)return; }
+    stopTimer(); started=false; board.classList.add('solved');
+    const r=2,c=2, full=document.createElement('div');
+    full.className='pz-tile';
+    full.style.width=tile+'px'; full.style.height=tile+'px';
+    full.style.backgroundImage='url("'+curImg+'")';
+    full.style.backgroundSize=cw+'px '+ch+'px';
+    full.style.backgroundPosition=(offX-c*tile)+'px '+(offY-r*tile)+'px';
+    full.style.transform='translate('+(c*tile)+'px,'+(r*tile)+'px)';
+    full.style.opacity='0'; full.style.transition='opacity .6s ease';
+    board.appendChild(full);
+    requestAnimationFrame(function(){ full.style.opacity='1'; });
+    if(msg)msg.classList.add('show');
+  }
+  function scramble(){
+    let prev=-1;
+    for(let k=0;k<200;k++){
+      const nb=[];
+      for(let p=0;p<TOTAL;p++){ if(p!==emptyPos && adj(p,emptyPos)) nb.push(p); }
+      let pick=nb[(Math.random()*nb.length)|0];
+      if(nb.length>1 && pick===prev){ k--; continue; }
+      state[emptyPos]=state[pick]; state[pick]=null; prev=emptyPos; emptyPos=pick;
+    }
+    render(false); resetStats();
+  }
+  function shuffle(){ build(curImg||pickImg(), scramble); }
+  function change(){ measure(); build(pickImg()); }
+
+  document.getElementById('puzzleShuffle').addEventListener('click',shuffle);
+  document.getElementById('puzzleChange').addEventListener('click',change);
+  measure(); build(pickImg());
+  window.addEventListener('resize',function(){ const old=size; measure(); if(Math.abs(size-old)>1) build(curImg||pickImg()); });
 })();
 
 console.log('💕 祝福新人：永结同心，百年好合！');
