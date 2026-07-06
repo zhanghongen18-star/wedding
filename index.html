@@ -684,19 +684,31 @@ const HERO_IMAGES = [
   '77e6f67468b522722e38822502c39e95.jpg',
   'aaf9aa73ecb797433eb2a28edca61b1b.jpg'
 ].map(f=>'thumbs/'+f);
+function fetchImg(url,onok,maxTries){
+  let tries=0;
+  (function attempt(){
+    tries++;
+    const im=new Image();
+    im.onload=function(){ onok(im.src); };
+    im.onerror=function(){ if(tries<(maxTries||5)) setTimeout(attempt,700*tries); };
+    im.src=url+(tries>1?((url.indexOf('?')<0?'?':'&')+'r='+tries):'');
+  })();
+}
 (function(){
   const layers=document.querySelectorAll('#heroBgs .hero-bg');
-  layers[0].style.backgroundImage='url("'+HERO_IMAGES[0]+'")';
-  layers[1].style.backgroundImage='url("'+HERO_IMAGES[1%HERO_IMAGES.length]+'")';
-  let active=0,cur=0;
+  fetchImg(HERO_IMAGES[0],function(u){ layers[0].style.backgroundImage='url("'+u+'")'; });
   if(HERO_IMAGES.length<2)return;
+  fetchImg(HERO_IMAGES[1],function(u){ layers[1].style.backgroundImage='url("'+u+'")'; });
+  let active=0,cur=0;
   setInterval(function(){
     const next=(active+1)%2;
     cur=(cur+1)%HERO_IMAGES.length;
-    layers[next].style.backgroundImage='url("'+HERO_IMAGES[cur]+'")';
-    layers[next].classList.add('is-active');
-    layers[active].classList.remove('is-active');
-    active=next;
+    fetchImg(HERO_IMAGES[cur],function(u){
+      layers[next].style.backgroundImage='url("'+u+'")';
+      layers[next].classList.add('is-active');
+      layers[active].classList.remove('is-active');
+      active=next;
+    });
   },5000);
 })();
 
@@ -769,17 +781,36 @@ navMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click',()=>navMen
 // ============ 相册 ============
 function buildGallery(){
   const grid=document.getElementById('galleryGrid');
+  const imgs=[];
   IMAGES.forEach((src,i)=>{
     const item=document.createElement('div');
     item.className='gallery-item';
     const img=document.createElement('img');
-    img.src=THUMB_PATH+src;
     img.alt='婚纱照 '+(i+1);
-    img.loading='lazy';
+    img.dataset.src=THUMB_PATH+src;
     item.appendChild(img);
     item.addEventListener('click',function(){openLightbox(i);});
     grid.appendChild(item);
+    imgs.push(img);
   });
+  // 限流加载 + 失败自动重试（弱网/微信内不会一次性并发卡死）
+  let idx=0,active=0;const MAX=5;
+  function pump(){
+    while(active<MAX && idx<imgs.length){ loadOne(imgs[idx++]); active++; }
+  }
+  function loadOne(img){
+    let tries=0;
+    (function attempt(){
+      tries++;
+      img.onload=function(){ active--; pump(); };
+      img.onerror=function(){
+        if(tries<5){ setTimeout(attempt,700*tries); }
+        else{ active--; pump(); }
+      };
+      img.src=img.dataset.src+(tries>1?('?r='+tries):'');
+    })();
+  }
+  pump();
 }
 buildGallery();
 
@@ -859,21 +890,24 @@ window.addEventListener('scroll',()=>{
   if(hero&&s<window.innerHeight) hero.style.transform='translateY('+(s*0.25)+'px) scale(1.12)';
 });
 
-// ============ 背景音乐 ============
+// ============ 背景音乐（移动端 / 微信兼容）============
 (function(){
   const audio=document.getElementById("bgm");
   const btn=document.getElementById("musicToggle");
+  let started=false;
+  btn.classList.add("paused");
   function toggle(){
-    if(audio.paused){audio.play();btn.classList.remove("paused");}
-    else{audio.pause();btn.classList.add("paused");}
+    if(audio.paused){ audio.play().then(function(){started=true;btn.classList.remove("paused");}).catch(function(){}); }
+    else{ audio.pause(); btn.classList.add("paused"); }
   }
-  btn.addEventListener("click",toggle);
-  setTimeout(function(){
-    audio.play().then(function(){btn.classList.remove('paused');}).catch(function(){btn.classList.add('paused');});
-  },2000);
-  document.addEventListener("click",()=>{
-    if(audio.paused){ audio.play().then(()=>btn.classList.remove("paused")).catch(()=>{}); }
-  },{once:true});
+  btn.addEventListener("click",function(e){ e.stopPropagation(); toggle(); });
+  // 手机/微信禁止自动播放，靠首次触摸/点击解锁
+  function unlock(){
+    if(started)return;
+    audio.play().then(function(){ started=true; btn.classList.remove("paused"); }).catch(function(){});
+  }
+  ["touchend","click"].forEach(function(ev){ document.addEventListener(ev,unlock,{passive:true}); });
+  document.addEventListener("WeixinJSBridgeReady",unlock,false);
 })();
 
 console.log('💕 祝福新人：永结同心，百年好合！');
